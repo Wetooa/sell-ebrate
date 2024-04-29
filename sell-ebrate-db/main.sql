@@ -164,6 +164,9 @@ ON DELETE CASCADE;
 
 
 -- CODE BELOW CONVERTED TO POSTGRESQL DAW ANA GPT HEHE
+-- supabaseanon key = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltY2t4Y2RwbXpvbnFsbWttdGxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzOTk0MDAsImV4cCI6MjAyOTk3NTQwMH0.wwT0vtQsIc3kHdpZnT2YzcH8WMoWi5WQ8biXQRl2TOA
+-- supabase url key = https://ymckxcdpmzonqlmkmtla.supabase.co
+-- supabase password = AdrianandVal123
 
 CREATE TABLE tblAccount (
   accountId SERIAL PRIMARY KEY,
