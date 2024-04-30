@@ -26,7 +26,31 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $response = new ServerResponse(data: ["message" => "Product added to store successfully!"]);
     returnJsonHttpResponse(200, $response);
 
-  case "UPDATE":
+    case "UPDATE":
+      $jsonData = getBodyParameters();
+      $requiredFields = ["productId"];
+      $fieldsToUpdate = [];
+      
+      foreach ($jsonData as $key => $value) {
+        if (in_array($key, ["productName", "description", "quantity", "price"])) {
+          $fieldsToUpdate[] = "$key = ?";
+          $fields[$key] = $value;
+        }
+      }
+      
+      if (empty($fieldsToUpdate)) {
+        $response = new ServerResponse(error: ["message" => "No valid fields provided for update"]);
+        returnJsonHttpResponse(400, $response);
+      }
+      
+      $fields = checkFields($fields, $requiredFields);
+  
+      $sql1 = $conn->prepare("UPDATE tblProduct SET " . implode(", ", $fieldsToUpdate) . " WHERE productId = ?");
+      $fieldsValues = array_merge(array_values($fields), [$fields["productId"]]);
+      $conn->execute_query($sql1, $fieldsValues);
+  
+      $response = new ServerResponse(data: ["message" => "Product updated successfully!"]);
+      returnJsonHttpResponse(200, $response);
 
 
   case "DELETE":

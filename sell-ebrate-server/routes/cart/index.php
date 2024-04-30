@@ -20,5 +20,22 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
   case "UPDATE":
 
-  case "DELETE":
+    case "DELETE":
+      $payload = getAuthPayload();
+      $jsonData = getBodyParameters();
+
+      $productId = $jsonData["productId"];
+      $userId = $payload["accountId"];
+
+      $sqlDeleteCartItem = $conn->prepare("DELETE FROM tblCartItem WHERE cartId IN (SELECT cartId FROM tblCart WHERE userId = ?) AND productId = ?");
+      $sqlDeleteCartItem->bind_param("ii", $userId, $productId);
+      $sqlDeleteCartItem->execute();
+
+      if ($sqlDeleteCartItem->affected_rows > 0) {
+          $response = new ServerResponse(data: ["message" => "Item deleted from cart successfully"]);
+          returnJsonHttpResponse(200, $response);
+      } else {
+          $response = new ServerResponse(error: ["message" => "Failed to delete item from cart"]);
+          returnJsonHttpResponse(500, $response);
+      }
 }

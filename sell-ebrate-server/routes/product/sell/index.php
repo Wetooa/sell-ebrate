@@ -7,10 +7,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $jsonData = getBodyParameters();
     $token = getAuthPayload();
 
-    // Check required fields
     $fieldsProduct = checkFields($jsonData, $requiredFieldsProduct);
 
-    // Insert into tblProduct
     $sql = $conn->prepare("INSERT INTO tblProduct (sellerId, productName, description, quantity, price) VALUES (?, ?, ?, ?, ?)");
     $sql->bind_param("issid", $token["accountId"], $fieldsProduct["productName"], $fieldsProduct["description"], $fieldsProduct["quantity"], $fieldsProduct["price"]);
 
