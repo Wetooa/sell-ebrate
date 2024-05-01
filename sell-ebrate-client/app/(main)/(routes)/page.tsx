@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { serverDomain } from "@/util/server";
 import ProductCard from "@/components/product-card";
+import { Product } from "@/util/types";
 
 export default async function Home() {
   const { data } = await axios.get(serverDomain + "product");
@@ -9,8 +10,39 @@ export default async function Home() {
   return (
     <main>
       <div className="flex flex-wrap">
-        {data.data.products.map((product: any) => {
-          return <ProductCard key={product.id} product={product} />;
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
+        })}
+      </div>
+      <div className="flex flex-wrap">
+        {data.data.products.map((product: Product) => {
+          return <ProductCard key={product.productId} product={product} />;
         })}
       </div>
     </main>

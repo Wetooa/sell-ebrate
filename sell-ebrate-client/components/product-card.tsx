@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { productName } = product;
+  const { productName, price } = product;
 
   return (
     <Card className="">
@@ -21,7 +21,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <CardDescription>Card Description</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>Php {price}</p>
       </CardContent>
       <CardFooter>
         <p>Card Footer</p>

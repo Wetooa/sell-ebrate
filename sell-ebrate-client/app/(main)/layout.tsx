@@ -9,7 +9,9 @@ export default function MainLayout({
   return (
     <div>
       <Navbar />
-      {children}
+      <div className="w-full px-32">
+        {children}
+      </div>
     </div>
   );
 }
