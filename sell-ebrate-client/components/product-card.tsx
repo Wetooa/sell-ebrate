@@ -14,13 +14,13 @@ import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
-  const { productName, price } = product;
+  const { productName, price, description } = product;
 
   return (
     <Card onClick={() => router.push(`/product/${product.productId}`)} className="hover:scale-105 cursor-pointer">
       <CardHeader>
         <CardTitle>{productName}</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <p>Php {price}</p>

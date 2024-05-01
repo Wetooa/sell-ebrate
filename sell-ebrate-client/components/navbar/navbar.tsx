@@ -54,7 +54,7 @@ export default function Navbar() {
 
       </div>
 
-      <div className="bg-pink-500 flex">
+      <div className="bg-primary flex">
 
         <Link href={"/"}>
           <h1>
@@ -176,7 +176,7 @@ export default function Navbar() {
       </div>
 
 
-      <div className="bg-red-400">
+      <div className="bg-secondary">
         <Sheet>
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side={"left"}>
