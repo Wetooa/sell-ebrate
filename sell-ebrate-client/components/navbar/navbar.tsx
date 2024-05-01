@@ -56,7 +56,10 @@ export default function Navbar() {
 
       <div className="bg-pink-500 flex">
 
-        <h1>Sell-Ebrate</h1>
+        <Link href={"/"}>
+          <h1>
+            Sell-Ebrate</h1>
+        </Link>
 
         <div className="flex w-full">
           <DropdownMenu>
