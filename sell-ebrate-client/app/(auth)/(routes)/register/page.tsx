@@ -43,7 +43,8 @@ import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
 
-export default function RegisterBank() {
+export default function RegisterPage() {
+
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {

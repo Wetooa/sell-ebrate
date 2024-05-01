@@ -10,12 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }: { product: Product }) {
+  const router = useRouter();
   const { productName, price } = product;
 
   return (
-    <Card className="">
+    <Card onClick={() => router.push(`/product/${product.productId}`)} className="hover:scale-105 cursor-pointer">
       <CardHeader>
         <CardTitle>{productName}</CardTitle>
         <CardDescription>Card Description</CardDescription>

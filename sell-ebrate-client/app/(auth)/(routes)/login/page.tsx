@@ -30,13 +30,10 @@ import axios from "axios";
 import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
+import { loginFormSchema } from "@/util/form-schema";
 
-const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
-export default function Login() {
+export default function LoginPage() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
