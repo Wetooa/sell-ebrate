@@ -17,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const { productName, price, description } = product;
 
   return (
-    <Card onClick={() => router.push(`/product/${product.productId}`)} className="hover:scale-105 cursor-pointer">
+    <Card onClick={() => router.push(`/product/${product.productId}`)} className="hover:scale-105 cursor-pointer bg-gradient-to-r from-purple-400 to-yellow-300">
       <CardHeader>
         <CardTitle>{productName}</CardTitle>
         <CardDescription>{description}</CardDescription>

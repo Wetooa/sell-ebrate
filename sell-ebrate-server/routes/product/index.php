@@ -5,14 +5,27 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $sql1 = "SELECT * FROM tblProduct";
 
-    $result = $conn->execute_query($sql1);
+    $payload = getAuthPayload();
 
-    $products = $result->fetch_all(MYSQLI_ASSOC);
+    if (isset($payload["productId"])) {
+      $sql1 = "SELECT * FROM tblProduct AS a WHERE productId = ? JOIN tblAccount AS b ON a.sellerId = b.accountId";
 
-    $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
-    returnJsonHttpResponse(200, $response);
+      $result = $conn->execute_query($sql1);
+      $products = $result->fetch_all(MYSQLI_ASSOC);
+
+      $response = new ServerResponse(data: ["message" => "Product data fetched successfully", "products" => $products], error: []);
+      returnJsonHttpResponse(200, $response);
+    } else {
+
+      $sql1 = "SELECT * FROM tblProduct";
+
+      $result = $conn->execute_query($sql1);
+      $products = $result->fetch_all(MYSQLI_ASSOC);
+
+      $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
+      returnJsonHttpResponse(200, $response);
+    }
 
   case "POST":
     $jsonData = getBodyParameters();

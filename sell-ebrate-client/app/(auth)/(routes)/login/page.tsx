@@ -37,7 +37,7 @@ export default function LoginPage() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "123@gmail.com",
+      email: "adrian.sajulga@gmail.com",
       password: "123123",
     },
   });
@@ -105,6 +105,8 @@ export default function LoginPage() {
               />
 
               <Separator />
+
+              <Button type="submit">Login</Button>
 
               {/* TODO: add a google button here */}
               <Button type="button">Google button here</Button>
