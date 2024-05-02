@@ -78,6 +78,7 @@ CREATE TABLE tblPayment (
 CREATE TABLE tblReview (
   reviewId BIGINT AUTO_INCREMENT PRIMARY KEY,
 
+  productId BIGINT,
   userId BIGINT,
 
   rating INT(5),
@@ -141,6 +142,11 @@ ON DELETE CASCADE;
 ALTER TABLE tblReview
 ADD CONSTRAINT fkReviewUser
 FOREIGN KEY (userId) REFERENCES tblUser(userId)
+ON DELETE CASCADE;
+
+ALTER TABLE tblReview
+ADD CONSTRAINT fkReviewProduct
+FOREIGN KEY (productId) REFERENCES tblProduct(productId)
 ON DELETE CASCADE;
 
 ALTER TABLE tblReply
