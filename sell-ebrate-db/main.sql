@@ -45,13 +45,7 @@ CREATE TABLE tblProduct (
 );
 
 CREATE TABLE tblCart (
-  cartId BIGINT AUTO_INCREMENT PRIMARY KEY,
-
-  userId BIGINT
-);
-
-CREATE TABLE tblCartItem (
-  cartId BIGINT,
+  userId BIGINT,
   productId BIGINT
 );
 
@@ -121,14 +115,6 @@ ON DELETE CASCADE;
 ALTER TABLE tblCart
 ADD CONSTRAINT fkCartUser
 FOREIGN KEY (userId) REFERENCES tblUser(userId)
-ON DELETE CASCADE;
-
-ALTER TABLE tblCartItem
-ADD CONSTRAINT fkCartItemCart
-FOREIGN KEY (cartId) REFERENCES tblCart(cartId)
-ON DELETE CASCADE,
-ADD CONSTRAINT fkCartItemProduct
-FOREIGN KEY (productId) REFERENCES tblProduct(productId)
 ON DELETE CASCADE;
 
 ALTER TABLE tblOrder

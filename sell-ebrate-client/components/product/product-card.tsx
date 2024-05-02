@@ -10,18 +10,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { productName } = product;
+  const router = useRouter();
+  const { productName, price, description } = product;
 
   return (
-    <Card className="">
+    <Card onClick={() => router.push(`/product/${product.productId}`)} className="hover:scale-105 cursor-pointer bg-gradient-to-r from-purple-400 to-yellow-300">
       <CardHeader>
         <CardTitle>{productName}</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>Php {price}</p>
       </CardContent>
       <CardFooter>
         <p>Card Footer</p>

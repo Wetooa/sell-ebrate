@@ -30,17 +30,14 @@ import axios from "axios";
 import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
+import { loginFormSchema } from "@/util/form-schema";
 
-const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
-export default function Login() {
+export default function LoginPage() {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "123@gmail.com",
+      email: "adrian.sajulga@gmail.com",
       password: "123123",
     },
   });
@@ -108,6 +105,8 @@ export default function Login() {
               />
 
               <Separator />
+
+              <Button type="submit">Login</Button>
 
               {/* TODO: add a google button here */}
               <Button type="button">Google button here</Button>

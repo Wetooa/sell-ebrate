@@ -6,7 +6,7 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $payload = getAuthPayload();
+    $payload = getBodyParameters();
 
     $sql1 = "SELECT * FROM tblCart a JOIN tblCartItem b ON a.cartId = b.cartId AND a.userId = ? JOIN tblProduct c ON b.productId = c.productId";
     $result = $conn->execute_query($sql1, [$payload["accountId"]]);
@@ -16,6 +16,15 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     returnJsonHttpResponse(200, $response);
 
   case "POST":
+    $payload = getBodyParameters();
+    $token = getAuthPayload();
+
+    $sql1 = "INSERT INTO tblCart(userId, productId) VALUES(?, ?)";
+    $result = $conn->execute_query($sql1, [$payload["accountId"]]);
+
+    $response = new ServerResponse(data: ["message" => "Cart item added successfully"]);
+    returnJsonHttpResponse(200, $response);
+
 
 
   case "UPDATE":
