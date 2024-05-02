@@ -64,12 +64,12 @@ INSERT INTO tblReview (userId, rating, message) VALUES
 (2, 4, 'Good service.');
 
 -- Insert more tblReview entries to match the number of replies
-INSERT INTO tblReview (userId, rating, message) VALUES
-(3, 5, 'Loved the quick delivery.'),
-(4, 4, 'Very satisfied with the purchase.'),
-(2, 3, 'Decent quality, but could be better.'),
-(1, 5, 'Best product at this price range.'),
-(3, 4, 'Would definitely recommend.');
+INSERT INTO tblReview (userId, productId, rating, message) VALUES
+(3, 1, 5, 'Loved the quick delivery.'),
+(4, 1, 4, 'Very satisfied with the purchase.'),
+(2, 1, 3, 'Decent quality, but could be better.'),
+(1, 1, 5, 'Best product at this price range.'),
+(3, 1, 4, 'Would definitely recommend.');
 
 -- Insert dummy data into tblReply
 INSERT INTO tblReply (replyId, reviewId, message) VALUES
