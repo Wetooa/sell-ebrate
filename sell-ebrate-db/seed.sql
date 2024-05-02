@@ -39,14 +39,8 @@ INSERT INTO tblProduct (sellerId, productName, description, quantity, price) VAL
 (2, 'Product J', 'Description of Product J', 50, 95.50);
 
 -- Insert dummy data into tblCart
-INSERT INTO tblCart (cartId, userId) VALUES
+INSERT INTO tblCart (userId, productId) VALUES
 (1, 1),
-(2, 2);
-
--- Insert dummy data into tblCartItem
-INSERT INTO tblCartItem (cartId, productId) VALUES
-(1, 1),
-(1, 2),
 (2, 2);
 
 -- Insert dummy data into tblOrder
