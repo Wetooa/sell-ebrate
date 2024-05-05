@@ -1,6 +1,7 @@
 <?php
 
-include_once "./env.php";
+include_once __DIR__ . "../../meta/env.php";
+
 
 /**
  * Return Json Http Response
@@ -34,11 +35,16 @@ function  returnJsonHttpResponse(int $httpCode, $data): string
 function getBodyParameters(): array
 {
   $rawData = file_get_contents('php://input');
+
+  // Check if the raw data is empty or not JSON
+  if (empty($rawData) || !json_decode($rawData, true)) {
+    return []; // Return empty array
+  }
+
   $jsonData = json_decode($rawData, true);
 
   return $jsonData;
 }
-
 
 function cleanData($data): string
 {

@@ -1,5 +1,6 @@
 <?php
 
+echo (__DIR__);
 include_once "../../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {

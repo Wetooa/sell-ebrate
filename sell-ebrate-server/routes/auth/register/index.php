@@ -34,7 +34,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $zipcode = $address["zipcode"];
 
     $sql_check = "SELECT * FROM tblAccount WHERE email = ?";
-    $result = $conn->execute_query($sql_check, [$fieldsAccount["email"]]);
+    $result = $conn->query($sql_check, [$fieldsAccount["email"]]);
 
     if ($result->num_rows != 0) {
       $response = new ServerResponse(error: ["message" => "Email already exists"]);

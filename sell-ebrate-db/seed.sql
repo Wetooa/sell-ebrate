@@ -83,3 +83,26 @@ INSERT INTO tblReply (replyId, reviewId, message) VALUES
 (8, 3, 'Your satisfaction is our priority.'),
 (9, 4, 'Thank you for recommending us.'),
 (10, 5, 'We will take your feedback seriously.');
+
+INSERT INTO tblReview (userId, productId, rating, message)
+VALUES
+(3, 1, ROUND(RAND() * 4) + 1, 'Impressed with the quality and service.'),
+(4, 1, ROUND(RAND() * 4) + 1, 'Excellent product, highly recommended!'),
+(2, 1, ROUND(RAND() * 4) + 1, 'Good value for the money.'),
+(1, 1, ROUND(RAND() * 4) + 1, 'Absolutely love it, exceeded my expectations.'),
+(3, 1, ROUND(RAND() * 4) + 1, 'Great experience, will buy again.'),
+(4, 1, ROUND(RAND() * 4) + 1, 'Very satisfied with the purchase.'),
+(2, 1, ROUND(RAND() * 4) + 1, 'Happy with the product, thank you!'),
+(1, 1, ROUND(RAND() * 4) + 1, 'Fantastic quality, arrived on time.'),
+(3, 1, ROUND(RAND() * 4) + 1, 'Impressive customer service, top-notch!'),
+(4, 1, ROUND(RAND() * 4) + 1, 'Highly impressed with the packaging.'),
+(2, 1, ROUND(RAND() * 4) + 1, 'Love it! Great value for money.'),
+(1, 1, ROUND(RAND() * 4) + 1, 'Delighted with the purchase, thank you!'),
+(3, 1, ROUND(RAND() * 4) + 1, 'Amazing product, exceeded my expectations.'),
+(4, 1, ROUND(RAND() * 4) + 1, 'Very happy with my purchase, thank you!'),
+(2, 1, ROUND(RAND() * 4) + 1, 'Superb quality, highly recommended!'),
+(1, 1, ROUND(RAND() * 4) + 1, 'Extremely satisfied with the product.'),
+(3, 1, ROUND(RAND() * 4) + 1, 'Great quality and fast delivery, thank you!'),
+(4, 1, ROUND(RAND() * 4) + 1, 'Very pleased with my order, thank you!'),
+(2, 1, ROUND(RAND() * 4) + 1, 'Excellent service and product quality.'),
+(1, 1, ROUND(RAND() * 4) + 1, 'Fantastic purchase, highly recommended!');

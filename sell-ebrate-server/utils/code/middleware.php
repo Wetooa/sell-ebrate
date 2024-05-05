@@ -2,8 +2,12 @@
 
 <?php
 
+echo (__DIR__);
 
-include_once "./env.php";
+include_once __DIR__ . "../../meta/env.php";
+
+
+
 
 // automatically makes route protected
 // TODO: improve this later on
