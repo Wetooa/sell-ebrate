@@ -14,8 +14,9 @@ export default function ProductPage() {
   // const { productName, description, quantity, price } = data as Product;
 
 
-
   // TODO: logic where it grabs data about that product as well as comments, rating, and stuff
+
+
 
   return (
     <div>Product hwerwerwer</div>

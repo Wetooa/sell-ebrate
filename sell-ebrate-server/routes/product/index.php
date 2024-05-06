@@ -9,7 +9,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $products = $result->fetch_all(MYSQLI_ASSOC);
     $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
     returnJsonHttpResponse(200, $response);
-    break;
 
   case "POST":
     $jsonData = getBodyParameters();
