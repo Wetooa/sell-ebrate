@@ -60,20 +60,14 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     returnJsonHttpResponse(200, $response);
 
   case "DELETE":
+    // FIX: gi set ra nako ang isDeleted na field
     $token = getAuthPayload();
     $userId = $token["accountId"];
 
-    $sqlDeleteBuyer = $conn->prepare("DELETE FROM tblBuyer WHERE buyerId = ?");
-    $sqlDeleteBuyer->bind_param("i", $userId);
-    $sqlDeleteBuyer->execute();
-
-    $sqlDeleteSeller = $conn->prepare("DELETE FROM tblSeller WHERE sellerId = ?");
-    $sqlDeleteSeller->bind_param("i", $userId);
-    $sqlDeleteSeller->execute();
-
-    $sqlDeleteAccount = $conn->prepare("DELETE FROM tblAccount WHERE accountId = ?");
+    $sqlDeleteAccount = $conn->prepare("UPDATE tblAccount SET isDeleted = True WHERE accountId = ?");
     $sqlDeleteAccount->bind_param("i", $userId);
     $sqlDeleteAccount->execute();
+
 
     if ($sqlDeleteAccount->affected_rows > 0) {
       $response = new ServerResponse(data: ["message" => "Account deleted successfully"]);

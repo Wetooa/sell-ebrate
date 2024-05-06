@@ -6,7 +6,7 @@ include_once "../../utils/headers.php";
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "POST":
     $token = getAuthPayload();
-    
+
     $sqlOrderItems = $conn->prepare("SELECT productId, quantity FROM tblOrderItem WHERE orderId IN (SELECT orderId FROM tblOrder WHERE buyerId = ? AND isPaid = 0)");
     $sqlOrderItems->bind_param("i", $token["accountId"]);
     $sqlOrderItems->execute();
