@@ -2,7 +2,6 @@
 
 <?php
 
-echo (__DIR__);
 
 include_once __DIR__ . "../../meta/env.php";
 
