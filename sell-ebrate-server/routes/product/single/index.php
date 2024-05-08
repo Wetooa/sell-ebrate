@@ -12,7 +12,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
 
     $sql1 = "
-      SELECT * FROM tblProduct AS a 
+      SELECT a.*, b.firstName, b.lastName 
+      FROM tblProduct AS a 
       JOIN tblAccount AS b ON a.sellerId = b.accountId 
       WHERE a.productId = ? 
     ";
@@ -20,8 +21,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $result = $conn->execute_query($sql1, [$fields["productId"]]);
     $product = $result->fetch_assoc();
 
-
-    $sql2 = ""
+    $sql2 = "";
 
     // TODO: add validation here if product does not exist
     $response = new ServerResponse(data: ["message" => "Successfully acquired product with id " . $fields["productId"], "product" => $product]);
