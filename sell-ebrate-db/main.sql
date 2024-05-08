@@ -35,13 +35,12 @@ CREATE TABLE tblBuyer (
 
 CREATE TABLE tblProduct (
   productId BIGINT AUTO_INCREMENT PRIMARY KEY,
-
   sellerId BIGINT,
-
   productName TEXT,
   description TEXT,
   quantity BIGINT,
-  price DOUBLE
+  price DOUBLE,
+  clicks BIGINT DEFAULT 0
 );
 
 CREATE TABLE tblCart (
@@ -51,26 +50,20 @@ CREATE TABLE tblCart (
 
 CREATE TABLE tblOrder (
   orderId BIGINT AUTO_INCREMENT PRIMARY KEY,
-
   buyerId BIGINT,
-
   isPaid BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE tblOrderItem (
   orderId BIGINT,
-
   productId BIGINT,
-
   quantity BIGINT
 );
 
 CREATE TABLE tblPayment (
   paymentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-
   orderId BIGINT,
   buyerId BIGINT,
-
   amount BIGINT,
   date DATETIME DEFAULT NOW()
 );
@@ -92,6 +85,16 @@ CREATE TABLE tblReply (
 
   message TEXT
 );
+
+DELIMITER $$
+CREATE EVENT reset_clicks_event
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP
+DO
+  UPDATE tblProduct
+  SET clicks = 0;
+$$
+DELIMITER ;
 
 ALTER TABLE tblUser
 ADD CONSTRAINT fkUserAccount
