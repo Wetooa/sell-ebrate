@@ -11,11 +11,13 @@ function useGetProduct(productId: string) {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data } = await axios.get(serverDomain + `product/single`, {
-        productId,
-      } as any);
+
+      const { data } = await axios({
+        method: "post",
+        url: serverDomain + `product/single`,
+        data: { productId },
+      });
       setProduct(data);
-      fetchProfile();
     };
     fetchProfile();
   }, []);
