@@ -12,9 +12,9 @@ function useGetProduct(productId: string) {
   useEffect(() => {
     const fetchProfile = async () => {
       const { data } = await axios.get(serverDomain + `product/single`, {
-        productId
+        productId,
       } as any);
-
+      setProduct(data);
       fetchProfile();
     };
     fetchProfile();

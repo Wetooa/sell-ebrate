@@ -1,6 +1,4 @@
 
-
-
 <?php
 include_once "../../../utils/headers.php";
 
@@ -10,14 +8,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
     $requiredFields = ["productId"];
     $jsonData = getBodyParameters();
-    $token = getAuthPayload();
     $fields = checkFields($jsonData, $requiredFields);
 
 
     $sql1 = "
       SELECT * FROM tblProduct AS a 
       JOIN tblAccount AS b ON a.sellerId = b.accountId 
-      JOIN tblReview AS c ON a.productId = c.productId
+      JOIN tblReview AS c ON a.productId = c.productId 
       WHERE a.productId = ? 
     ";
     $result = $conn->execute_query($sql1, [$fields["productId"]]);
