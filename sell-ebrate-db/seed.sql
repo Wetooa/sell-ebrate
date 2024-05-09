@@ -62,7 +62,6 @@ INSERT INTO tblReply (reviewId, message) VALUES
 (1, 'Thank you for your feedback!'),
 (2, 'Thanks for the review! We\'re glad you enjoyed it.');
 
-
 -- Insert data into tblAccount
 INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES
 ('Michael', 'Johnson', 'michael.johnson@example.com', 'hashedpassword5', 'male', '1993-04-22'),
