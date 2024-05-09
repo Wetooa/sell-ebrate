@@ -43,23 +43,25 @@ export default function StatsPage() {
       </div>
 
 
-      <Select>
+      <Select onValueChange={(state) => { setAction(state) }}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select Table..." />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="getProductCount">Product</SelectItem>
+
           <SelectItem value="getSellerCount">Seller</SelectItem>
           <SelectItem value="getBuyerCount">Buyer</SelectItem>
           <SelectItem value="getPaymentCount">Payment</SelectItem>
           <SelectItem value="getReviewCount">Review</SelectItem>
         </SelectContent>
       </Select>
+
       <div>
         {stats}
       </div>
 
-    </div>
+    </div >
   )
 }
 
