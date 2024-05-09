@@ -94,6 +94,7 @@ function checkFields($data, $requiredFields): array
     returnJsonHttpResponse(400, new ServerResponse(error: ["message" => "Missing required fields!"]));
   }
 
+
   $fields = [];
 
   foreach ($requiredFields as $field) {

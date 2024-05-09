@@ -7,6 +7,8 @@ import { Product } from "@/util/types";
 export default async function Home() {
   const { data } = await axios.get(serverDomain + "product");
 
+
+
   return (
     <main>
       <div className="flex flex-wrap">

@@ -10,16 +10,17 @@ function useGetProduct(productId: string) {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProduct = async () => {
 
       const { data } = await axios({
-        method: "post",
+        method: "GET",
         url: serverDomain + `product/single`,
-        data: { productId },
+        params: { productId },
       });
-      setProduct(data);
+
+      setProduct(data.data.product);
     };
-    fetchProfile();
+    fetchProduct();
   }, []);
 
   return product;
@@ -37,9 +38,10 @@ export default function ProductPage() {
 
   // TODO: logic where it grabs data about that product as well as comments, rating, and stuff
 
+  if (!product) { return <></> }
 
   return (
-    <div>{product}</div>
+    <div>{product.name}</div>
   )
 }
 
