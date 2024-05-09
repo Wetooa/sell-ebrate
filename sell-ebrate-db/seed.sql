@@ -61,3 +61,156 @@ INSERT INTO tblReview (userId, productId, rating, message) VALUES
 INSERT INTO tblReply (reviewId, message) VALUES
 (1, 'Thank you for your feedback!'),
 (2, 'Thanks for the review! We\'re glad you enjoyed it.');
+
+-- Insert data into tblAccount
+INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES
+('Michael', 'Johnson', 'michael.johnson@example.com', 'hashedpassword5', 'male', '1993-04-22'),
+('Emily', 'Williams', 'emily.williams@example.com', 'hashedpassword6', 'female', '1988-09-30'),
+('David', 'Martinez', 'david.martinez@example.com', 'hashedpassword7', 'male', '1975-12-10'),
+('Sarah', 'Brown', 'sarah.brown@example.com', 'hashedpassword8', 'female', '1980-06-18'),
+('Matthew', 'Garcia', 'matthew.garcia@example.com', 'hashedpassword9', 'male', '1997-01-05'),
+('Olivia', 'Jones', 'olivia.jones@example.com', 'hashedpassword10', 'female', '1995-08-12'),
+('Daniel', 'Lopez', 'daniel.lopez@example.com', 'hashedpassword11', 'male', '1983-03-28'),
+('Sophia', 'Hernandez', 'sophia.hernandez@example.com', 'hashedpassword12', 'female', '1987-11-24'),
+('James', 'Young', 'james.young@example.com', 'hashedpassword13', 'male', '1979-10-15'),
+('Ava', 'Gonzalez', 'ava.gonzalez@example.com', 'hashedpassword14', 'female', '1992-07-08'),
+('Benjamin', 'Rodriguez', 'benjamin.rodriguez@example.com', 'hashedpassword15', 'male', '1986-05-20'),
+('Charlotte', 'Miller', 'charlotte.miller@example.com', 'hashedpassword16', 'female', '1991-02-14'),
+('William', 'Jackson', 'william.jackson@example.com', 'hashedpassword17', 'male', '1978-09-03'),
+('Amelia', 'Taylor', 'amelia.taylor@example.com', 'hashedpassword18', 'female', '1984-06-25'),
+('Ethan', 'Moore', 'ethan.moore@example.com', 'hashedpassword19', 'male', '1990-11-08');
+
+-- Insert data into tblUser
+INSERT INTO tblUser (userId, street, barangay, municipality, province, country, zipcode) VALUES
+(5, '567 Cedar Street', 'Barangay 567', 'City E', 'Province E', 'Country E', '56789'),
+(6, '678 Birch Street', 'Barangay 678', 'City F', 'Province F', 'Country F', '67890'),
+(7, '789 Pine Street', 'Barangay 789', 'City G', 'Province G', 'Country G', '78901'),
+(8, '890 Walnut Street', 'Barangay 890', 'City H', 'Province H', 'Country H', '89012'),
+(9, '901 Spruce Street', 'Barangay 901', 'City I', 'Province I', 'Country I', '90123'),
+(10, '012 Oak Street', 'Barangay 012', 'City J', 'Province J', 'Country J', '01234'),
+(11, '123 Elm Street', 'Barangay 123', 'City K', 'Province K', 'Country K', '12345'),
+(12, '234 Maple Street', 'Barangay 234', 'City L', 'Province L', 'Country L', '23456'),
+(13, '345 Pine Street', 'Barangay 345', 'City M', 'Province M', 'Country M', '34567'),
+(14, '456 Cedar Street', 'Barangay 456', 'City N', 'Province N', 'Country N', '45678'),
+(15, '567 Birch Street', 'Barangay 567', 'City O', 'Province O', 'Country O', '56789'),
+(16, '678 Elm Street', 'Barangay 678', 'City P', 'Province P', 'Country P', '67890'),
+(17, '789 Oak Street', 'Barangay 789', 'City Q', 'Province Q', 'Country Q', '78901'),
+(18, '890 Maple Street', 'Barangay 890', 'City R', 'Province R', 'Country R', '89012'),
+(19, '901 Pine Street', 'Barangay 901', 'City S', 'Province S', 'Country S', '90123'),
+(20, '012 Walnut Street', 'Barangay 012', 'City T', 'Province T', 'Country T', '01234');
+
+-- Insert data into tblSeller
+INSERT INTO tblSeller (sellerId, sellerCertification) VALUES
+(5, 'Non-GMO Certified'),
+(6, 'Organic Certification Pending'),
+(7, 'Fair Trade Certified');
+
+-- Insert data into tblBuyer
+INSERT INTO tblBuyer (buyerId) VALUES
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+-- Insert data into tblProduct
+INSERT INTO tblProduct (sellerId, productName, description, quantity, price) VALUES
+(5, 'Strawberries', 'Fresh strawberries from local farms, non-GMO.', 80, 3.25),
+(6, 'Organic Spinach', 'Certified organic spinach, pesticide-free.', 60, 2.75),
+(7, 'Fair Trade Chocolate', 'Delicious fair trade chocolate bars.', 120, 5.50),
+(8, 'Blueberries', 'Juicy blueberries from sustainable sources.', 100, 4.00),
+(9, 'Free-Range Eggs', 'Farm-fresh free-range eggs.', 50, 2.00),
+(10, 'Artisan Bread', 'Handcrafted artisan bread made with natural ingredients.', 40, 6.00);
+
+-- Insert data into tblCart
+INSERT INTO tblCart (userId) VALUES
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+-- Insert data into tblCartItem
+INSERT INTO tblCartItem (cartId, productId) VALUES
+(3, 6),
+(4, 7),
+(5, 8),
+(6, 9),
+(7, 10),
+(8, 1),
+(9, 2),
+(10, 3),
+(11, 4),
+(12, 5),
+(13, 6),
+(14, 7),
+(15, 8),
+(16, 9),
+(17, 10);
+
+-- Insert data into tblOrder
+INSERT INTO tblOrder (buyerId, isPaid) VALUES
+(5, FALSE),
+(6, TRUE),
+(7, TRUE),
+(8, FALSE),
+(9, TRUE),
+(10, FALSE);
+
+-- Insert data into tblOrderItem
+INSERT INTO tblOrderItem (orderId, productId, quantity) VALUES
+(3, 6, 3),
+(4, 7, 2),
+(5, 8, 4),
+(6, 9, 2),
+(7, 10, 1),
+(8, 1, 2),
+(9, 2, 1),
+(10, 3, 3),
+(11, 4, 2),
+(12, 5, 1),
+(13, 6, 4),
+(14, 7, 3),
+(15, 8, 2),
+(16, 9, 3),
+(17, 10, 1);
+
+-- Insert data into tblPayment
+INSERT INTO tblPayment (orderId, buyerId, amount) VALUES
+(6, 6, 16.25),
+(7, 7, 11.00),
+(9, 9, 4.00);
+
+-- Insert data into tblReview
+INSERT INTO tblReview (userId, productId, rating, message) VALUES
+(5, 8, 5, 'Delicious blueberries, very fresh!'),
+(6, 9, 4, 'Great eggs, love that they are free-range.'),
+(7, 10, 5, 'The artisan bread is fantastic!'),
+(8, 1, 3, 'Good strawberries, but a few were mushy.'),
+(9, 2, 5, 'Spinach was crisp and tasty.'),
+(10, 3, 4, 'Chocolate is rich and smooth.'),
+(11, 4, 4, 'Blueberries were plump and sweet.'),
+(12, 5, 5, 'The eggs were perfect!'),
+(13, 6, 3, 'The bread was a bit dry, but still good.'),
+(14, 7, 5, 'I love the fair trade chocolate!'),
+(15, 8, 4, 'Blueberries were great, will buy again.'),
+(16, 9, 5, 'Best eggs I''ve ever had!'),
+(17, 10, 4, 'Really enjoyed the artisan bread.');
+
+-- Insert data into tblReply
+INSERT INTO tblReply (reviewId, message) VALUES
+(5, 'Thank you for your feedback! We take pride in our produce.'),
+(6, 'We're glad you enjoyed our products!'),
+(7, 'Thank you for your kind words. We strive to provide the best.'),
+(8, 'We apologize for any inconvenience. We'll ensure better quality next time.'),
+(9, 'Thank you for your review! We're happy you liked our spinach.'),
+(10, 'We're thrilled you enjoyed our chocolate! Thank you for your review.'),
+(11, 'Thank you for your feedback. We're glad you liked the blueberries.'),
+(12, 'We're glad you enjoyed the eggs!'),
+(13, 'Thank you for your feedback! We'll work on improving our bread.'),
+(14, 'We're glad you love our chocolate! Thank you for your review.'),
+(15, 'Thank you for your feedback! We're glad you enjoyed the blueberries.'),
+(16, 'We're happy to hear that! Thank you for your review.'),
+(17, 'Thank you for your feedback. We're glad you liked the artisan bread.');
