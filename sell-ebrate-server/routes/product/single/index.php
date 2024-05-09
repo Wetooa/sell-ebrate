@@ -1,7 +1,5 @@
-
 <?php
 include_once "../../../utils/headers.php";
-
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
@@ -9,7 +7,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $requiredFields = ["productId"];
     $jsonData = getBodyParameters();
     $fields = checkFields($jsonData, $requiredFields);
-
 
     $sql1 = "
       SELECT a.*, b.firstName, b.lastName 
@@ -21,11 +18,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $result = $conn->execute_query($sql1, [$fields["productId"]]);
     $product = $result->fetch_assoc();
 
-    $sql2 = "";
-
-    // TODO: add validation here if product does not exist
-    $response = new ServerResponse(data: ["message" => "Successfully acquired product with id " . $fields["productId"], "product" => $product]);
-    returnJsonHttpResponse(200, $response);
+    if (!$product) {
+      $response = new ServerResponse(error: ["message" => "Product with id " . $fields["productId"] . " not found"]);
+      returnJsonHttpResponse(404, $response);
+    } else {
+      $response = new ServerResponse(data: ["message" => "Successfully acquired product with id " . $fields["productId"], "product" => $product]);
+      returnJsonHttpResponse(200, $response);
+    }
 
   case "POST":
 
@@ -33,3 +32,4 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
   case "DELETE":
 }
+?>
