@@ -20,7 +20,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $token = getAuthPayload();
 
     $sql1 = "INSERT INTO tblCart(userId, productId) VALUES(?, ?)";
-    $result = $conn->execute_query($sql1, [$payload["accountId"]]);
+    $result = $conn->execute_query($sql1, [$token["accountId"], $payload["productId"]]);
 
     $response = new ServerResponse(data: ["message" => "Cart item added successfully"]);
     returnJsonHttpResponse(200, $response);

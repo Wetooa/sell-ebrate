@@ -1,4 +1,5 @@
 
+
 -- Insert data into tblAccount
 INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES
 ('John', 'Doe', 'john.doe@example.com', 'hashedpassword1', 'male', '1985-07-12'),
@@ -87,29 +88,9 @@ INSERT INTO tblProduct (sellerId, productName, description, quantity, price) VAL
 (5, 'Artisan Bread', 'Handcrafted artisan bread made with natural ingredients.', 40, 6.00),
 (6, 'Organic Milk', 'Organic milk from grass-fed cows.', 70, 3.50),
 (7, 'Organic Honey', 'Pure organic honey from local beekeepers.', 90, 8.50);
+
 -- Insert data into tblCart
-INSERT INTO tblCart (userId) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6),
-(7),
-(8),
-(9),
-(10),
-(11),
-(12),
-(13),
-(14),
-(15),
-(16),
-(17),
-(18),
-(19);
--- Insert data into tblCartItem
-INSERT INTO tblCartItem (cartId, productId) VALUES
+INSERT INTO tblCart (userId, productId) VALUES
 (1, 1),
 (2, 2),
 (3, 6),

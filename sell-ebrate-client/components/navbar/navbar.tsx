@@ -17,6 +17,7 @@ import {
   Plus,
   PlusCircle,
   Settings,
+  ShoppingCart,
   User,
   UserPlus,
   Users,
@@ -45,6 +46,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   return (
@@ -168,8 +170,8 @@ export default function Navbar() {
 
 
           <div>
-            <Link href={"/cart"} className={buttonVariants({ variant: "link" })}>
-              Cart
+            <Link href={"/cart"} className={cn(buttonVariants({ variant: "outline" }), "")}>
+              <ShoppingCart />
             </Link>
           </div>
 
