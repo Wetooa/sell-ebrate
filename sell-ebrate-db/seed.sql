@@ -205,5 +205,3 @@ INSERT INTO tblReply (reviewId, message) VALUES
 (15, 'Thank you for your feedback! We''re glad you enjoyed the blueberries.'),
 (16, 'We''re happy to hear that! Thank you for your review.'),
 (17, 'Thank you for your feedback. We''re glad you liked the artisan bread.');
-
-
