@@ -8,9 +8,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
     $payload = getBodyParameters();
 
-    $sql1 = "SELECT * FROM tblCart a JOIN tblCartItem b ON a.cartId = b.cartId AND a.userId = ? JOIN tblProduct c ON b.productId = c.productId";
-    $result = $conn->execute_query($sql1, [$payload["accountId"]]);
+     $sql = "SELECT * FROM tblCart WHERE userId = ?";
+    $result = $conn->execute_query($sql, [$payload["accountId"]]);
     $cart = $result->fetch_all(MYSQLI_ASSOC);
+
 
     $response = new ServerResponse(data: ["message" => "User cart fetched successfully", "cart" => $cart]);
     returnJsonHttpResponse(200, $response);

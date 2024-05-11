@@ -62,6 +62,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $response = new ServerResponse(data: ["message" => "User registered in successfully", "token" => $hashedToken]);
     returnJsonHttpResponse(200, $response);
 
+    break;
+
   case "UPDATE":
 
   case "DELETE":

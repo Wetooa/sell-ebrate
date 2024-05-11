@@ -7,7 +7,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $token = getAuthPayload();
 
     $userId = $token["accountId"];
-    $sqlCartItems = $conn->prepare("SELECT productId, quantity FROM tblCartItem WHERE cartId IN (SELECT cartId FROM tblCart WHERE userId = ?)");
+    
+    $sqlCartItems = $conn->prepare("SELECT productId FROM tblCart WHERE userId = ?");
     $sqlCartItems->bind_param("i", $userId);
     $sqlCartItems->execute();
     $cartItemsResult = $sqlCartItems->get_result();
@@ -36,10 +37,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       $sqlReduceQuantity->bind_param("ii", $quantity, $productId);
       $sqlReduceQuantity->execute();
     }
-
-    $sqlClearCart = $conn->prepare("DELETE FROM tblCartItem WHERE cartId IN (SELECT cartId FROM tblCart WHERE userId = ?)");
-    $sqlClearCart->bind_param("i", $userId);
-    $sqlClearCart->execute();
 
     $response = new ServerResponse(data: ["message" => "Products bought successfully", "orderId" => $orderId]);
     returnJsonHttpResponse(200, $response);
