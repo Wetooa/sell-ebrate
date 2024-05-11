@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-2 ">
         {data.data.products.map((product: Product) => {
           return <ProductCard key={product.productId} product={product} />;
         })}

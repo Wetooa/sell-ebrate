@@ -4,10 +4,6 @@ include_once "../../../utils/headers.php";
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
 
-    $requiredFields = ["productId"];
-    $jsonData = getBodyParameters();
-    $fields = checkFields($jsonData, $requiredFields);
-
     $sql1 = "
       SELECT a.*, b.firstName, b.lastName 
       FROM tblProduct AS a 
@@ -15,7 +11,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       WHERE a.productId = ? 
     ";
 
-    $result = $conn->execute_query($sql1, [$fields["productId"]]);
+    $result = $conn->execute_query($sql1, [$_GET["productId"]]);
     $product = $result->fetch_assoc();
 
     if (!$product) {
@@ -32,4 +28,3 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
   case "DELETE":
 }
-?>
