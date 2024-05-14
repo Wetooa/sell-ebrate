@@ -3,23 +3,15 @@
 include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
-    case "GET":
-        
-        if (isset($_GET['productId'])) {
-            $productId = $_GET['productId'];
-            $sqlUpdateClicks = "UPDATE tblProduct SET clicks = clicks + 1 WHERE productId = ?";
-            $stmt = $conn->prepare($sqlUpdateClicks);
-            $stmt->bind_param("i", $productId);
-            $stmt->execute();
-        }
+  case "GET":
 
-        // Fetch products data
-        $sqlGetProducts = "SELECT * FROM tblProduct";
-        $result = $conn->query($sqlGetProducts);
-        $products = $result->fetch_all(MYSQLI_ASSOC);
-        $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
-        returnJsonHttpResponse(200, $response);
-        break;
+    // Fetch multiple products data
+    $sqlGetProducts = "SELECT * FROM tblProduct";
+    $result = $conn->query($sqlGetProducts);
+    $products = $result->fetch_all(MYSQLI_ASSOC);
+
+    $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
+    returnJsonHttpResponse(200, $response);
 
   case "POST":
     $jsonData = getBodyParameters();

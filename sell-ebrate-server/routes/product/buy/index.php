@@ -52,10 +52,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       $response = new ServerResponse(error: ["message" => $e->getMessage()]);
       returnJsonHttpResponse(400, $response);
     }
-    break;
 
   default:
     $response = new ServerResponse(error: ["message" => "Invalid request method"]);
     returnJsonHttpResponse(405, $response);
-    break;
 }

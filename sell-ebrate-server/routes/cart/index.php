@@ -8,7 +8,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
     $payload = getBodyParameters();
 
-     $sql = "SELECT * FROM tblCart WHERE userId = ?";
+    $sql = "SELECT * FROM tblCart WHERE userId = ?";
     $result = $conn->execute_query($sql, [$payload["accountId"]]);
     $cart = $result->fetch_all(MYSQLI_ASSOC);
 
