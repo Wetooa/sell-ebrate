@@ -172,3 +172,5 @@ ALTER TABLE tblReply
 ADD CONSTRAINT fkReplyReview
 FOREIGN KEY (reviewId) REFERENCES tblReview(reviewId)
 ON DELETE CASCADE;
+
+
