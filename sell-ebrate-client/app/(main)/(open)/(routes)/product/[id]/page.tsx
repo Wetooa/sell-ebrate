@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/store/user";
 import { serverDomain } from "@/util/server";
 import { Product } from "@/util/types";
 import axios from "axios";
@@ -29,6 +30,7 @@ function useGetProduct(productId: string) {
 
 export default function ProductPage() {
   const { id } = useParams();
+  const { token } = useUserStore();
 
 
   if (!id) {
@@ -42,7 +44,19 @@ export default function ProductPage() {
   if (!product) { return <></> }
 
 
-  console.log(product);
+  async function addToCart() {
+
+    const { data } = await axios({ method: "POST", url: serverDomain + "/cart", data: { "productId": id }, headers: { "Authorization": token } })
+
+  }
+
+  async function buyProduct() {
+
+    const { data } = await axios({ method: "POST", url: serverDomain + "/product/buy", data: { "productId": id }, headers: { "Authorization": token } })
+
+  }
+
+
 
   return (
     <div className="">
@@ -68,8 +82,8 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-auto">
-            <Button>Buy</Button>
-            <Button>Add to cart</Button>
+            <Button onClick={buyProduct}>Buy</Button>
+            <Button onClick={addToCart}>Add to cart</Button>
           </div>
         </div>
 

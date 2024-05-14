@@ -33,34 +33,52 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $country = $address["country"];
     $zipcode = $address["zipcode"];
 
-    $sql_check = "SELECT * FROM tblAccount WHERE email = ?";
-    $result = $conn->execute_query($sql_check, [$fieldsAccount["email"]]);
 
-    if ($result->num_rows != 0) {
-      $response = new ServerResponse(error: ["message" => "Email already exists"]);
+    try {
+      $conn->begin_transaction();
+
+      $sql_check = "SELECT * FROM tblAccount WHERE email = ?";
+      $stmt_check = $conn->prepare($sql_check);
+      $stmt_check->bind_param("s", $email);
+      $stmt_check->execute();
+      $result = $stmt_check->get_result();
+
+      if ($result->num_rows != 0) {
+        throw new Exception("Email already exists");
+      }
+
+      $options = ['cost' => 12];
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT, $options);
+
+      $sql1 = $conn->prepare("INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES (?, ?, ?, ?, ?, ?)");
+      $sql1->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $gender, date('Y-m-d H:i:s', strtotime($birthdate)));
+      $sql1->execute();
+      $accountId = $sql1->insert_id;
+
+      $sql2 = $conn->prepare("INSERT INTO tblUser (userId, street, barangay, municipality, province, country, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?)");
+      $sql2->bind_param("sssssss", $accountId, $street, $barangay, $municipality, $province, $country, $zipcode);
+      $sql2->execute();
+
+      $sql3 = $conn->prepare("INSERT INTO tblBuyer (buyerId) VALUES (?)");
+      $sql3->bind_param("s", $accountId);
+      $sql3->execute();
+
+      $sql4 = $conn->prepare("SELECT * FROM tblAccount WHERE accountId = ?");
+      $sql4->bind_param("s", $accountId);
+      $sql4->execute();
+      $account = $sql4->get_result()->fetch_assoc();
+
+      $conn->commit();
+
+      $hashedToken = createToken($account);
+      $response = new ServerResponse(data: ["message" => "User registered successfully", "token" => $hashedToken]);
+      returnJsonHttpResponse(200, $response);
+    } catch (Exception $e) {
+
+      $conn->rollback();
+      $response = new ServerResponse(error: ["message" => $e->getMessage()]);
       returnJsonHttpResponse(409, $response);
     }
-
-    $options = ['cost' => 12];
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT, $options);
-
-    $sql1 = $conn->prepare("INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES (?, ?, ?, ?, ?, ?)");
-    $sql1->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $gender, date('Y-m-d H:i:s', strtotime($birthdate)));
-    $sql1->execute();
-
-    $account = $sql1->get_result()->fetch_assoc();
-
-    $sql2 = $conn->prepare("INSERT INTO tblUser (userId, street, barangay, municipality, province, country, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $sql2->bind_param("sssssss", $account["accountId"], $street, $barangay, $municipality, $province, $country, $zipcode);
-    $sql2->execute();
-
-    $sql3 = $conn->prepare("INSERT INTO tblBuyer (buyerId) VALUES (?)");
-    $sql3->bind_param("s", $account["accountId"]);
-    $sql3->execute();
-
-    $hashedToken = createToken($account);
-    $response = new ServerResponse(data: ["message" => "User registered in successfully", "token" => $hashedToken]);
-    returnJsonHttpResponse(200, $response);
 
   case "UPDATE":
 

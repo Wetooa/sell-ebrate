@@ -5,8 +5,7 @@ import React from "react";
 import Link from "next/link";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
+import { Button, buttonVariants } from "@/components/ui/button"; import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -61,6 +60,7 @@ export default function SellerPage() {
   const { toast } = useToast();
 
   async function onSubmit(values: z.infer<typeof sellProductFormSchema>) {
+
     const { data } = await axios.post(serverDomain + "product/sell", {
       ...values,
     });
@@ -71,8 +71,6 @@ export default function SellerPage() {
     } else {
       // TODO: good toast here
       toast({ title: "Sell Product Success", description: data.data.message });
-      localStorage.setItem("token", data.data.token);
-      setToken(data.data.token);
     }
   }
 
