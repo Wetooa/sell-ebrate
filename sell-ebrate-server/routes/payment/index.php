@@ -1,11 +1,16 @@
 <?php
 
-
 include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "POST":
     $token = getAuthPayload();
+
+    $isPaid = 0;
+    $sqlInsertOrder = $conn->prepare("INSERT INTO tblOrder (buyerId, isPaid, createdAt, updatedAt) VALUES (?, ?, NOW(), NOW())");
+    $sqlInsertOrder->bind_param("ii", $token["accountId"], $isPaid);
+    $sqlInsertOrder->execute();
+    $orderId = $conn->insert_id;
 
     $sqlOrderItems = $conn->prepare("SELECT productId, quantity FROM tblOrderItem WHERE orderId IN (SELECT orderId FROM tblOrder WHERE buyerId = ? AND isPaid = 0)");
     $sqlOrderItems->bind_param("i", $token["accountId"]);
@@ -38,7 +43,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $sqlInsertPayment->execute();
     $paymentId = $conn->insert_id;
 
-    $sqlUpdateOrder = $conn->prepare("UPDATE tblOrder SET isPaid = 1 WHERE orderId IN (SELECT orderId FROM tblOrder WHERE buyerId = ? AND isPaid = 0)");
+    $sqlUpdateOrder = $conn->prepare("UPDATE tblOrder SET isPaid = 1, updatedAt = NOW() WHERE orderId IN (SELECT orderId FROM tblOrder WHERE buyerId = ? AND isPaid = 0)");
     $sqlUpdateOrder->bind_param("i", $token["accountId"]);
     $sqlUpdateOrder->execute();
 
@@ -51,3 +56,4 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     returnJsonHttpResponse(405, $response);
     break;
 }
+?>
