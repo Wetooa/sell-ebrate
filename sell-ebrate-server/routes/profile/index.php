@@ -15,8 +15,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     }
 
     $user = $result->fetch_assoc();
-    $response = new ServerResponse(data: ["message" => "User data fetched successfully", "user" => $user]);
+    unset($user["password"]);
 
+    $response = new ServerResponse(data: ["message" => "User data fetched successfully", "user" => $user]);
     returnJsonHttpResponse(200, $response);
 
   case "UPDATE":
@@ -60,7 +61,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     returnJsonHttpResponse(200, $response);
 
   case "DELETE":
-    // FIX: gi set ra nako ang isDeleted na field
     $token = getAuthPayload();
     $userId = $token["accountId"];
 
