@@ -48,8 +48,8 @@ import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0">
-      <div className="px-32 bg-primary">
+    <nav className="">
+      <div className="px-32 bg-primary z-50">
         <div className="flex items-center px-6 py-4 gap-2" >
 
           <Link href={"/"} className="mx-6">
@@ -59,9 +59,9 @@ export default function Navbar() {
           </Link>
 
           <div className="flex w-full">
-            <Input />
+            <Input className="rounded-tl-full rounded-bl-full" />
 
-            <Button>
+            <Button className="rounded-tr-full rounded-br-full px0 py-1" variant={"outline"}>
               <SearchIcon />
             </Button>
           </div>
@@ -70,7 +70,7 @@ export default function Navbar() {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="" variant={"secondary"}>
+                <Button className="text-white hover:black" variant={"ghost"}>
                   My Account
                 </Button>
               </DropdownMenuTrigger>
