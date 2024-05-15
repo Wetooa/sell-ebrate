@@ -3,11 +3,10 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $jsonData = getBodyParameters();
-    $token = getAuthPayload();
+    $accountId = $_GET["accountId"];
 
     $sql1 = "SELECT * FROM tblAccount WHERE accountId = ?";
-    $result = $conn->execute_query($sql1, [$token['accountId']]);
+    $result = $conn->execute_query($sql1, [$accountId]);
 
     if ($result->num_rows == 0) {
       $response = new ServerResponse(error: ["message" => "User does not exist"]);

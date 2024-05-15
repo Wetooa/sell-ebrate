@@ -6,8 +6,17 @@ interface UserStateType {
   removeToken: () => void;
 }
 
+const getTokenFromLocalStorage = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token") || "";
+  }
+  return "";
+};
+
+const token = getTokenFromLocalStorage();
+
 export const useUserStore = create<UserStateType>((set) => ({
-  token: localStorage.getItem("token") || "",
+  token: token,
   setToken: (token: string) => set({ token: token }),
   removeToken: () => set({ token: "" }),
 }));
