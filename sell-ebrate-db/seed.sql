@@ -205,3 +205,67 @@ INSERT INTO tblReply (reviewId, message) VALUES
 (15, 'Thank you for your feedback! We''re glad you enjoyed the blueberries.'),
 (16, 'We''re happy to hear that! Thank you for your review.'),
 (17, 'Thank you for your feedback. We''re glad you liked the artisan bread.');
+
+INSERT INTO tblSeller (sellerId, sellerCertification) VALUES
+(8, 'Certified Organic'),
+(9, 'Fair Trade Certified'),
+(10, 'Non-GMO Certified'),
+(11, 'Organic Certification Pending'),
+(12, 'Fair Trade Certified'),
+(13, 'Certified Organic'),
+(14, 'Fair Trade Certified'),
+(15, 'Non-GMO Certified'),
+(16, 'Organic Certification Pending'),
+(17, 'Fair Trade Certified');
+
+
+INSERT INTO tblProduct (sellerId, productName, description, quantity, price) VALUES
+(8, 'Organic Kale', 'Fresh organic kale from local farms.', 90, 1.75),
+(9, 'Fair Trade Bananas', 'Ethically sourced bananas, fair trade certified.', 120, 0.75),
+(10, 'Non-GMO Corn', 'Organically grown non-GMO corn.', 70, 2.00),
+(11, 'Organic Avocados', 'Certified organic avocados, pesticide-free.', 50, 3.00),
+(12, 'Fair Trade Sugar', 'Delicious fair trade sugar.', 100, 2.50),
+(13, 'Organic Almonds', 'Juicy organic almonds from sustainable sources.', 80, 4.00),
+(14, 'Free-Range Chicken', 'Farm-fresh free-range chicken.', 60, 5.00),
+(15, 'Artisan Cheese', 'Handcrafted artisan cheese made with natural ingredients.', 40, 6.50),
+(16, 'Organic Butter', 'Organic butter from grass-fed cows.', 90, 3.75),
+(17, 'Organic Tea', 'Pure organic tea from local farmers.', 100, 7.00);
+
+
+INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES
+('Chris', 'Evans', 'chris.evans@example.com', 'hashedpassword40', 'male', '1987-06-13'),
+('Emma', 'Stone', 'emma.stone@example.com', 'hashedpassword41', 'female', '1988-11-06'),
+('Robert', 'Downey', 'robert.downey@example.com', 'hashedpassword42', 'male', '1965-04-04'),
+('Scarlett', 'Johansson', 'scarlett.johansson@example.com', 'hashedpassword43', 'female', '1984-11-22'),
+('Tom', 'Holland', 'tom.holland@example.com', 'hashedpassword44', 'male', '1996-06-01'),
+('Zendaya', 'Coleman', 'zendaya.coleman@example.com', 'hashedpassword45', 'female', '1996-09-01'),
+('Chris', 'Hemsworth', 'chris.hemsworth@example.com', 'hashedpassword46', 'male', '1983-08-11'),
+('Brie', 'Larson', 'brie.larson@example.com', 'briehashedpassword47', 'female', '1989-10-01'),
+('Mark', 'Ruffalo', 'mark.ruffalo@example.com', 'hashedpassword48', 'male', '1967-11-22'),
+('Gal', 'Gadot', 'gal.gadot@example.com', 'hashedpassword49', 'female', '1985-04-30');
+
+
+INSERT INTO tblUser (userId, street, barangay, municipality, province, country, zipcode) VALUES
+(20, '100 Technology Street', 'Tech Barangay 1', 'City AA', 'Province AA', 'Country AA', '10101'),
+(21, '101 Innovation Avenue', 'Tech Barangay 2', 'City BB', 'Province BB', 'Country BB', '10202'),
+(22, '102 Silicon Road', 'Tech Barangay 3', 'City CC', 'Province CC', 'Country CC', '10303'),
+(23, '103 Developer Drive', 'Tech Barangay 4', 'City DD', 'Province DD', 'Country DD', '10404'),
+(24, '104 Engineer Lane', 'Tech Barangay 5', 'City EE', 'Province EE', 'Country EE', '10505'),
+(25, '105 Programmer Parkway', 'Tech Barangay 6', 'City FF', 'Province FF', 'Country FF', '10606'),
+(26, '106 Designer Boulevard', 'Tech Barangay 7', 'City GG', 'Province GG', 'Country GG', '10707'),
+(27, '107 Startup Street', 'Tech Barangay 8', 'City HH', 'Province HH', 'Country HH', '10808'),
+(28, '108 Gadget Road', 'Tech Barangay 9', 'City II', 'Province II', 'Country II', '10909'),
+(29, '109 AI Alley', 'Tech Barangay 10', 'City JJ', 'Province JJ', 'Country JJ', '11010');
+
+
+INSERT INTO tblSeller (sellerId, sellerCertification) VALUES
+(20, 'ISO 9001 Certified'),
+(21, 'ISO 27001 Certified'),
+(22, 'CE Certified'),
+(23, 'FCC Certified'),
+(24, 'RoHS Compliant'),
+(25, 'UL Certified'),
+(26, 'CSA Certified'),
+(27, 'Energy Star Certified'),
+(28, 'EPEAT Certified'),
+(29, 'Bluetooth SIG Certified');

@@ -4,14 +4,36 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
+    $sortOption = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-    // Fetch multiple products data
     $sqlGetProducts = "SELECT * FROM tblProduct";
-    $result = $conn->query($sqlGetProducts);
-    $products = $result->fetch_all(MYSQLI_ASSOC);
 
-    $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
-    returnJsonHttpResponse(200, $response);
+    switch ($sortOption) {
+      case 'name_asc':
+        $sqlGetProducts .= " ORDER BY productName ASC";
+        break;
+      case 'name_desc':
+        $sqlGetProducts .= " ORDER BY productName DESC";
+        break;
+      case 'price_low_high':
+        $sqlGetProducts .= " ORDER BY price ASC";
+        break;
+      case 'price_high_low':
+        $sqlGetProducts .= " ORDER BY price DESC";
+        break;
+    }
+
+    $result = $conn->query($sqlGetProducts);
+
+    if ($result) {
+      $products = $result->fetch_all(MYSQLI_ASSOC);
+      $response = new ServerResponse(data: ["message" => "Products data fetched successfully", "products" => $products], error: []);
+      returnJsonHttpResponse(200, $response);
+    } else {
+      $response = new ServerResponse(data: [], error: ["message" => "Failed to fetch products data"]);
+      returnJsonHttpResponse(500, $response);
+    }
+    break;
 
   case "POST":
     $jsonData = getBodyParameters();
