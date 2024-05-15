@@ -11,14 +11,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import { DollarSign } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
   const { productName, price, description } = product;
 
   return (
-    <button onClick={() => router.push(`/product/${product.productId}`)} >
-      <Card className="transition-all hover:scale-105 cursor-pointer">
+    <button className="" onClick={() => router.push(`/product/${product.productId}`)} >
+      <Card className="transition-all hover:scale-105 cursor-pointer flex flex-col">
+        <div className="w-full aspect-square bg-gray-300">
+        </div>
+
         <CardHeader>
           <CardTitle>{productName}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -26,8 +31,11 @@ export default function ProductCard({ product }: { product: Product }) {
         <CardContent>
           <p>Php {price}</p>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
+        <CardFooter className="flex gap-2 items-center flex-wrap">
+          <Badge>Lorem</Badge>
+          <Badge>Lorem</Badge>
+          <Badge>Lorem</Badge>
+          <Badge>Lorem</Badge>
         </CardFooter>
       </Card>
     </button>

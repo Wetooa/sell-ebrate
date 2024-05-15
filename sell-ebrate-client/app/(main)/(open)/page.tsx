@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="flex flex-wrap gap-2 ">
+      <div className="grid grid-cols-4 p-2 gap-4 justify-between">
         {data.data.products.map((product: Product) => {
           return <ProductCard key={product.productId} product={product} />;
         })}

@@ -1,42 +1,40 @@
 "use client";
 
-import React from "react";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import React from "react";
 
 import {
-  Cloud,
+  CircleDollarSign,
   CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
+  FacebookIcon,
+  Instagram,
   LogOut,
-  Mail,
   MessageSquare,
-  Plus,
   PlusCircle,
+  SearchIcon,
   Settings,
   ShoppingCart,
+  TwitterIcon,
   User,
-  UserPlus,
-  Users,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
   DropdownMenuShortcut,
-  DropdownMenuGroup,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuPortal
-} from "@/components/ui/dropdown-menu"
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -44,38 +42,26 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   return (
     <nav className="sticky top-0">
-
       <div className="px-32 bg-primary">
-        <div className="flex items-center p-2">
-          <Link href={"/"}>
-            <h1 className="text-white font-bold text-3xl">
-              Sell-Ebrate</h1>
+        <div className="flex items-center px-6 py-4 gap-2" >
+
+          <Link href={"/"} className="mx-6">
+            <h1 className="text-white font-bold">
+              <CircleDollarSign />
+            </h1>
           </Link>
 
           <div className="flex w-full">
-            <DropdownMenu>
-              <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             <Input />
 
             <Button>
-              Search UIcon
+              <SearchIcon />
             </Button>
           </div>
 
@@ -83,82 +69,85 @@ export default function Navbar() {
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">Open</Button>
+                <Button className="" variant={"secondary"}>
+                  My Account
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+
+                  <DropdownMenuItem asChild>
+                    <Link href={"/profile"} >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    </Link>
                   </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href={"/orders"} >
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Orders</span>
+                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    </Link>
+                  </DropdownMenuItem>
+
                   <DropdownMenuItem>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    <span>Billing</span>
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    <span>Cart</span>
                     <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                    <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Keyboard className="mr-2 h-4 w-4" />
-                    <span>Keyboard shortcuts</span>
-                    <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Users className="mr-2 h-4 w-4" />
-                    <span>Team</span>
-                  </DropdownMenuItem>
+
                   <DropdownMenuSub>
                     <DropdownMenuSubTrigger>
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      <span>Invite users</span>
+
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+
                     </DropdownMenuSubTrigger>
                     <DropdownMenuPortal>
                       <DropdownMenuSubContent>
                         <DropdownMenuItem>
-                          <Mail className="mr-2 h-4 w-4" />
-                          <span>Email</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
                           <MessageSquare className="mr-2 h-4 w-4" />
-                          <span>Message</span>
+                          <span>Others</span>
                         </DropdownMenuItem>
+
                         <DropdownMenuSeparator />
+
                         <DropdownMenuItem>
                           <PlusCircle className="mr-2 h-4 w-4" />
                           <span>More...</span>
                         </DropdownMenuItem>
+
                       </DropdownMenuSubContent>
                     </DropdownMenuPortal>
                   </DropdownMenuSub>
-                  <DropdownMenuItem>
-                    <Plus className="mr-2 h-4 w-4" />
-                    <span>New Team</span>
-                    <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                  </DropdownMenuItem>
+
                 </DropdownMenuGroup>
+
+                <DropdownMenuLabel>Other Links</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+
                 <DropdownMenuItem>
-                  <Github className="mr-2 h-4 w-4" />
-                  <span>GitHub</span>
+                  <FacebookIcon className="mr-2 h-4 w-4" />
+                  <span>Facebook</span>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem>
-                  <LifeBuoy className="mr-2 h-4 w-4" />
-                  <span>Support</span>
+                  <TwitterIcon className="mr-2 h-4 w-4" />
+                  <span>Twitter</span>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem disabled>
-                  <Cloud className="mr-2 h-4 w-4" />
-                  <span>API</span>
+                  <Instagram className="mr-2 h-4 w-4" />
+                  <span>Instagram</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+
                 <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
@@ -180,15 +169,12 @@ export default function Navbar() {
           </div>
 
 
-
         </div>
 
       </div>
 
-
-
-      <div className="bg-secondary px-32">
-        <div className="">
+      <div className="bg-gray-300 w-full">
+        <div className="mx-32 p-2">
           <Sheet>
             <SheetTrigger>Open</SheetTrigger>
             <SheetContent side={"left"}>
