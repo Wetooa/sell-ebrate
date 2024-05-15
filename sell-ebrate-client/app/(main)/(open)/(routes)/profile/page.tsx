@@ -5,6 +5,7 @@ import axios from "axios";
 import { serverDomain } from "@/util/server";
 import { useRouter } from "next/router";
 import { useUserStore } from "@/store/user";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function useGetProfile(token: string | null) {
   const [profile, setProfile] = useState(null);
@@ -19,7 +20,7 @@ function useGetProfile(token: string | null) {
 
       // TODO: toast here
 
-      setProfile(data.data.profile);
+      setProfile(data.data.user);
     };
     fetchProfile();
   }, [token]);
@@ -35,5 +36,27 @@ export default function Profile() {
 
   const profile = useGetProfile(token);
 
-  return <div>Data: {profile}</div>;
+  if (!profile) return null;
+
+  return <div>
+    <div className="w-32 aspect-square rounded-full"></div>
+
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+
+    <div>
+      {profile.firstName} {profile.lastName}
+    </div>
+
+    <div>
+      {profile.email}
+    </div>
+
+    <div>
+      {profile.gender}
+    </div>
+
+  </div>;
 }

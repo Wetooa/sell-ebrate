@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/store/user";
 import { serverDomain } from "@/util/server";
-import { Product } from "@/util/types";
 import axios from "axios";
 import { useRouter, useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -31,11 +31,9 @@ function useGetProduct(productId: string) {
 export default function ProductPage() {
   const { id } = useParams();
   const { token } = useUserStore();
+  const { toast } = useToast();
 
-
-  if (!id) {
-    return <></>
-  }
+  if (!id) { return <></> }
 
   const product = useGetProduct(id as string) as any;
 
@@ -43,10 +41,15 @@ export default function ProductPage() {
 
   if (!product) { return <></> }
 
-
   async function addToCart() {
 
     const { data } = await axios({ method: "POST", url: serverDomain + "/cart", data: { "productId": id }, headers: { "Authorization": token } })
+
+    if (data.error) {
+      toast({ title: "Add to Cart Error", description: data.error.message });
+    } else {
+      toast({ title: "Add to Cart Success", description: data.data.message });
+    }
 
   }
 

@@ -20,8 +20,8 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <button className="" onClick={() => router.push(`/product/${product.productId}`)} >
-      <Card className="transition-all hover:scale-105 cursor-pointer flex flex-col">
-        <div className="w-full aspect-square bg-gray-300">
+      <Card className="transition-all rounded-lg hover:scale-105 cursor-pointer flex flex-col">
+        <div className="w-full aspect-square bg-gray-300 rounded-tl-lg rounded-tr-lg">
         </div>
 
         <CardHeader>
