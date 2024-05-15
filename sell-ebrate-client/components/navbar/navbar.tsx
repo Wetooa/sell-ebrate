@@ -15,6 +15,7 @@ import {
   PlusCircle,
   SearchIcon,
   Settings,
+  Shield,
   ShoppingCart,
   TwitterIcon,
   User,
@@ -146,7 +147,17 @@ export default function Navbar() {
                   <Instagram className="mr-2 h-4 w-4" />
                   <span>Instagram</span>
                 </DropdownMenuItem>
+
+                <DropdownMenuLabel>Special</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+
+                <DropdownMenuItem asChild>
+                  <Link href={"/stats"}>
+                    <Shield className="mr-2 h-4 w-4" />
+                    <span>Admin</span>
+                    <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
+                  </Link>
+                </DropdownMenuItem>
 
                 <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
