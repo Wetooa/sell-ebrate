@@ -6,10 +6,11 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $payload = getBodyParameters();
+    $token = getAuthPayload();
+    $accountId = $token["accountId"];
 
-    $sql = "SELECT * FROM tblCart WHERE userId = ?";
-    $result = $conn->execute_query($sql, [$payload["accountId"]]);
+    $sql = "SELECT * FROM tblCart AS a JOIN tblProduct AS b ON a.productId = b.productId WHERE userId = ? ";
+    $result = $conn->execute_query($sql, [$accountId]);
     $cart = $result->fetch_all(MYSQLI_ASSOC);
 
 

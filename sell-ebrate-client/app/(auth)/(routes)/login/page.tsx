@@ -31,6 +31,7 @@ import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
 import { loginFormSchema } from "@/util/form-schema";
+import { useRouter } from "next/navigation";
 
 
 export default function LoginPage() {
@@ -44,6 +45,7 @@ export default function LoginPage() {
 
   const { setToken, token } = useUserStore();
   const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const { data } = await axios.post(serverDomain + "auth/login", {
@@ -56,6 +58,7 @@ export default function LoginPage() {
       toast({ title: "Login Success", description: data.data.message });
       localStorage.setItem("token", data.data.token);
       setToken(data.data.token);
+      router.push("/");
     }
   }
 

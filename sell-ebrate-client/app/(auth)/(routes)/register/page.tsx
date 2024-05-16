@@ -42,6 +42,7 @@ import { cn } from "@/lib/utils";
 import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
 
@@ -69,6 +70,7 @@ export default function RegisterPage() {
 
   const { setToken } = useUserStore();
   const { toast } = useToast();
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
     const { data } = await axios.post(serverDomain + "auth/register", {
@@ -83,6 +85,7 @@ export default function RegisterPage() {
       toast({ title: "Register Success", description: data.data.message });
       localStorage.setItem("token", data.data.token);
       setToken(data.data.token);
+      router.push("/");
     }
   }
 

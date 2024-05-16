@@ -54,7 +54,7 @@ export default function CartPage() {
   if (!cart) return null;
 
   return (
-    <div>
+    <div className="grid grid-cols-4 p-2 gap-4 justify-between">
 
       {cart.map((product) => {
         return <ProductCard key={product.productId} product={product} />;

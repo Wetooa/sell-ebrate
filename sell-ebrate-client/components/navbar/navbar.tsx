@@ -3,7 +3,7 @@
 import { ModeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   CircleDollarSign,
@@ -45,8 +45,49 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useUserStore } from "@/store/user";
+import axios from "axios";
+import { serverDomain } from "@/util/server";
+import { useRouter } from "next/navigation";
+
+
+
+function useGetProfile(token: string | null) {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const { data } = await axios.get(serverDomain + "profile/self", {
+        headers: {
+          Authorization: token,
+        },
+      } as any);
+
+      // TODO: toast here
+
+      setProfile(data.data.user);
+    };
+    fetchProfile();
+  }, [token]);
+
+  return profile;
+}
+
 
 export default function Navbar() {
+
+  const { token, removeToken } = useUserStore();
+  const profile = useGetProfile(token);
+  const router = useRouter();
+
+
+  async function logout() {
+    localStorage.removeItem("token");
+    removeToken();
+    router.push("/login");
+  }
+
+
   return (
     <nav className="">
       <div className="px-32 bg-primary z-50">
@@ -68,104 +109,148 @@ export default function Navbar() {
 
 
           <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="text-white hover:black" variant={"ghost"}>
-                  My Account
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            {
+              profile ?
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="text-white hover:black" variant={"ghost"}>
+                      Welcome {profile.firstName} {profile.lastName}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
 
-                <DropdownMenuGroup>
+                    <DropdownMenuGroup>
 
-                  <DropdownMenuItem asChild>
-                    <Link href={"/profile"} >
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
-                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </Link>
-                  </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={"/profile"} >
+                          <User className="mr-2 h-4 w-4" />
+                          <span>Profile</span>
+                          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
 
-                  <DropdownMenuItem asChild>
-                    <Link href={"/orders"} >
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      <span>Orders</span>
-                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </Link>
-                  </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href={"/orders"} >
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          <span>Orders</span>
+                          <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
 
-                  <DropdownMenuItem>
-                    <ShoppingCart className="mr-2 h-4 w-4" />
-                    <span>Cart</span>
-                    <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                  </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        <span>Cart</span>
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                      </DropdownMenuItem>
 
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
 
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
-                      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
 
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
-                        <DropdownMenuItem>
-                          <MessageSquare className="mr-2 h-4 w-4" />
-                          <span>Others</span>
-                        </DropdownMenuItem>
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            <DropdownMenuItem>
+                              <MessageSquare className="mr-2 h-4 w-4" />
+                              <span>Others</span>
+                            </DropdownMenuItem>
 
-                        <DropdownMenuSeparator />
+                            <DropdownMenuSeparator />
 
-                        <DropdownMenuItem>
-                          <PlusCircle className="mr-2 h-4 w-4" />
-                          <span>More...</span>
-                        </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <PlusCircle className="mr-2 h-4 w-4" />
+                              <span>More...</span>
+                            </DropdownMenuItem>
 
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
 
-                </DropdownMenuGroup>
+                    </DropdownMenuGroup>
 
-                <DropdownMenuLabel>Other Links</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                    <DropdownMenuLabel>Other Links</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
 
-                <DropdownMenuItem>
-                  <FacebookIcon className="mr-2 h-4 w-4" />
-                  <span>Facebook</span>
-                </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <FacebookIcon className="mr-2 h-4 w-4" />
+                      <span>Facebook</span>
+                    </DropdownMenuItem>
 
-                <DropdownMenuItem>
-                  <TwitterIcon className="mr-2 h-4 w-4" />
-                  <span>Twitter</span>
-                </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <TwitterIcon className="mr-2 h-4 w-4" />
+                      <span>Twitter</span>
+                    </DropdownMenuItem>
 
-                <DropdownMenuItem disabled>
-                  <Instagram className="mr-2 h-4 w-4" />
-                  <span>Instagram</span>
-                </DropdownMenuItem>
+                    <DropdownMenuItem disabled>
+                      <Instagram className="mr-2 h-4 w-4" />
+                      <span>Instagram</span>
+                    </DropdownMenuItem>
 
-                <DropdownMenuLabel>Special</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                    <DropdownMenuLabel>Special</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
 
-                <DropdownMenuItem asChild>
-                  <Link href={"/stats"}>
-                    <Shield className="mr-2 h-4 w-4" />
-                    <span>Admin</span>
-                    <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
-                  </Link>
-                </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={"/stats"}>
+                        <Shield className="mr-2 h-4 w-4" />
+                        <span>Admin</span>
+                        <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
+                      </Link>
+                    </DropdownMenuItem>
 
-                <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                  <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                    <DropdownMenuItem onClick={logout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                :
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="text-white hover:black" variant={"ghost"}>
+                      Welcome
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Authenticate</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuGroup>
+
+                      <DropdownMenuItem asChild>
+                        <Link href={"/register"} >
+                          <User className="mr-2 h-4 w-4" />
+                          <span>Register</span>
+                          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem asChild>
+                        <Link href={"/login"} >
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          <span>Login</span>
+                          <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                        </Link>
+                      </DropdownMenuItem>
+
+                    </DropdownMenuGroup>
+
+                    <DropdownMenuLabel>Special</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+            }
           </div>
 
 
