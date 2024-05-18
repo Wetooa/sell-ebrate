@@ -269,3 +269,62 @@ INSERT INTO tblSeller (sellerId, sellerCertification) VALUES
 (27, 'Energy Star Certified'),
 (28, 'EPEAT Certified'),
 (29, 'Bluetooth SIG Certified');
+
+INSERT INTO tblTags (tagName) VALUES 
+('Gaming'),
+('Fresh Diary'),
+('Caffeine'),
+('Technology'),
+('Fruits'),
+('Snacks'),
+('Condiments');
+
+-- Insert data into tblTagProduct for Gaming tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(1, 1), -- Organic Apples (Fruits)
+(3, 1), -- Organic Strawberries (Fruits)
+(4, 1), -- Organic Spinach (Fruits)
+(5, 1); -- Fair Trade Chocolate (Snacks)
+
+-- Insert data into tblTagProduct for Fresh Diary tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(7, 2), -- Free-Range Eggs (Fresh Diary)
+(8, 2), -- Artisan Bread (Fresh Diary)
+(9, 2), -- Organic Milk (Fresh Diary)
+(10, 2); -- Organic Honey (Fresh Diary)
+
+-- Insert data into tblTagProduct for Caffeine tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(2, 3), -- Fair Trade Coffee (Caffeine)
+(6, 3), -- Blueberries (Caffeine)
+(13, 3), -- Free-Range Eggs (Caffeine)
+(14, 3); -- Artisan Bread (Caffeine)
+
+-- Insert data into tblTagProduct for Technology tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(20, 4), -- Organic Kale (Technology)
+(21, 4), -- Fair Trade Bananas (Technology)
+(22, 4), -- Non-GMO Corn (Technology)
+(23, 4); -- Organic Avocados (Technology)
+
+-- Insert data into tblTagProduct for Fruits tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(1, 5), -- Organic Apples (Fruits)
+(3, 5), -- Organic Strawberries (Fruits)
+(4, 5), -- Organic Spinach (Fruits)
+(6, 5); -- Blueberries (Fruits)
+
+-- Insert data into tblTagProduct for Snacks tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(5, 6), -- Fair Trade Chocolate (Snacks)
+(8, 6), -- Artisan Bread (Snacks)
+(10, 6), -- Organic Honey (Snacks)
+(12, 6); -- Fair Trade Chocolate (Snacks)
+
+-- Insert data into tblTagProduct for Condiments tag
+INSERT INTO tblTagProduct (productId, tagId) VALUES
+(10, 7), -- Organic Honey (Condiments)
+(12, 7), -- Fair Trade Chocolate (Condiments)
+(15, 7), -- Artisan Cheese (Condiments)
+(17, 7); -- Organic Tea (Condiments)
+

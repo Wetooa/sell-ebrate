@@ -49,6 +49,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    console.log(serverDomain)
     const { data } = await axios.post(serverDomain + "auth/login", {
       ...values,
     });
