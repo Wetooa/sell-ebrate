@@ -89,19 +89,19 @@ export default function Navbar() {
 
 
   return (
-    <nav className="">
-      <div className="px-32 bg-primary-foreground z-50">
+    <nav className="w-full">
+      <div className="px-32 bg-secondary-foreground text-secondary z-50">
         <div className="flex items-center px-6 py-4 gap-2" >
 
           <Link href={"/"} className="mx-6">
-            <h1 className="text-white font-bold">
+            <h1 className="font-bold">
               <CircleDollarSign />
             </h1>
           </Link>
 
           <div className="flex w-full">
-            <Input className="rounded-tl-full rounded-bl-full" />
-            <Button className="rounded-tr-full rounded-br-full px0 py-1" variant={"outline"}>
+            <Input className="rounded-tl-full rounded-bl-full " />
+            <Button className="rounded-tr-full rounded-br-full px0 py-1 text-primary" variant={"outline"}>
               <SearchIcon />
             </Button>
           </div>
@@ -112,7 +112,7 @@ export default function Navbar() {
               profile ?
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button className="text-white hover:black" variant={"ghost"}>
+                    <Button className="hover:black" variant={"ghost"}>
                       Welcome {profile.firstName} {profile.lastName}
                     </Button>
                   </DropdownMenuTrigger>
@@ -254,7 +254,7 @@ export default function Navbar() {
 
 
           <div className="flex">
-            <Link href={"/cart"} className={cn(buttonVariants({ variant: "outline" }), "rounded-tl-full rounded-bl-full")}>
+            <Link href={"/cart"} className={cn(buttonVariants({ variant: "outline" }), "rounded-tl-full rounded-bl-full text-primary")}>
               <ShoppingCart />
             </Link>
             <ModeToggle />
@@ -265,14 +265,16 @@ export default function Navbar() {
 
       </div>
 
-      <div className="bg-secondary-foreground w-full">
+      <div className="bg-primary-foreground text-primary w-full">
         <div className="mx-32 p-2">
           <Sheet>
-            <SheetTrigger className="text-secondary">Open</SheetTrigger>
+            <SheetTrigger className="">Open</SheetTrigger>
             <SheetContent side={"left"}>
               <SheetHeader>
                 <SheetTitle>Are you absolutely sure?</SheetTitle>
                 <SheetDescription>
+
+
                   This action cannot be undone. This will permanently delete your account
                   and remove your data from our servers.
                 </SheetDescription>

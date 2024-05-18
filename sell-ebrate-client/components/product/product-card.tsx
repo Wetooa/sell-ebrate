@@ -20,16 +20,17 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <button className="" onClick={() => router.push(`/product/${product.productId}`)} >
-      <Card className="transition-all rounded-lg hover:opacity-80 cursor-pointer flex flex-col">
+      <Card className="transition-all rounded-lg hover:opacity-80 cursor-pointer flex flex-col text-start">
+
         <div className="w-full aspect-square bg-gray-300 rounded-tl-lg rounded-tr-lg">
         </div>
 
         <CardHeader>
           <CardTitle>{productName}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardDescription className="text-xs">{description}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <p>Php {price}</p>
+        <CardContent className="">
+          <p className="text-primary">₱ {price}</p>
         </CardContent>
         <CardFooter className="flex gap-2 items-center flex-wrap">
           <Badge>Lorem</Badge>
