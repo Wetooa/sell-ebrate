@@ -13,6 +13,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -43,6 +44,7 @@ import { serverDomain } from "@/util/server";
 import { useUserStore } from "@/store/user";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 export default function RegisterPage() {
 
@@ -52,7 +54,9 @@ export default function RegisterPage() {
       firstName: "firstname",
       lastName: "lastname",
       email: "",
+
       password: "123123",
+      confirm: "123123",
 
       gender: Gender.MALE,
       birthdate: new Date(),
@@ -91,14 +95,15 @@ export default function RegisterPage() {
 
 
   return (
-    <Card className="flex-1">
+    <Card className="h-full w-full bg-secondary">
       <CardHeader>
         <CardTitle>Register</CardTitle>
-        <CardDescription>insert cool desc</CardDescription>
+        <CardDescription>Begin your journey here...</CardDescription>
+        <Separator />
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex gap-2">
               <FormField
                 control={form.control}
@@ -106,8 +111,9 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Firstname</FormLabel>
+                    <FormDescription className="text-xs">Enter firstname</FormDescription>
                     <FormControl>
-                      <Input placeholder="Jake" {...field} />
+                      <Input placeholder="ex. Adrian" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -120,8 +126,9 @@ export default function RegisterPage() {
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Lastname</FormLabel>
+                    <FormDescription className="text-xs">Enter lastname</FormDescription>
                     <FormControl>
-                      <Input placeholder="Bajo" {...field} />
+                      <Input placeholder="ex. Sajulga" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -135,10 +142,11 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
+                  <FormDescription className="text-xs">Use this to sign in to your account...</FormDescription>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="jakebajo@gmail.com"
+                      placeholder="ex. valbolante@gmail.com"
                       {...field}
                     />
                   </FormControl>
@@ -147,19 +155,38 @@ export default function RegisterPage() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="******" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Password</FormLabel>
+                    <FormDescription className="text-xs">Try to achieve a strong password</FormDescription>
+                    <FormControl>
+                      <Input type="password" placeholder="******" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="confirm"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormDescription className="text-xs">Re-enter password for extra security...</FormDescription>
+                    <FormControl>
+                      <Input type="password" placeholder="******" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
 
             <FormField
               control={form.control}
@@ -167,6 +194,7 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Birthdate</FormLabel>
+                  <FormDescription className="text-xs">This will help improve user experience</FormDescription>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -209,10 +237,11 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Gender</FormLabel>
+                  <FormDescription className="text-xs">Sorry this should be sex...</FormDescription>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
-                      className="flex justify-evenly w-full"
+                      className="flex justify-start w-full"
                       defaultValue={Gender.MALE}
                       {...field}
                     >
@@ -237,47 +266,60 @@ export default function RegisterPage() {
 
             {/* -- address -- */}
 
-            <FormField
-              control={form.control}
-              name="address.street"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Street</FormLabel>
-                  <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Separator />
 
-            <FormField
-              control={form.control}
-              name="address.barangay"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Barangay</FormLabel>
-                  <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="my-8">
+              <CardTitle className="text-md">Address</CardTitle>
+              <CardDescription className="text-xs">So we could deliver our packages to your doorstep</CardDescription>
+            </div>
 
-            <FormField
-              control={form.control}
-              name="address.municipality"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Municipality</FormLabel>
-                  <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="address.street"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Street</FormLabel>
+                    <FormDescription className="text-xs">Street where you live</FormDescription>
+                    <FormDescription className="text-xs"></FormDescription>
+                    <FormControl>
+                      <Input placeholder="ex. N.A (lol)" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="address.barangay"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Barangay</FormLabel>
+                    <FormDescription className="text-xs">Barangay where you live</FormDescription>
+                    <FormControl>
+                      <Input placeholder="ex. Tungkop" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="address.municipality"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Municipality</FormLabel>
+                    <FormDescription className="text-xs">Municipality where you live</FormDescription>
+                    <FormControl>
+                      <Input placeholder="ex. Minglanilla" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -285,8 +327,9 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Province</FormLabel>
+                  <FormDescription className="text-xs">Province where you live</FormDescription>
                   <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
+                    <Input placeholder="ex. Cebu" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -299,8 +342,9 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
+                  <FormDescription className="text-xs">Province where you live</FormDescription>
                   <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
+                    <Input placeholder="ex. Philippines" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -313,8 +357,9 @@ export default function RegisterPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Zipcode</FormLabel>
+                  <FormDescription className="text-xs">Zipcode of the place where you live</FormDescription>
                   <FormControl>
-                    <Input placeholder="bao unsa ni" {...field} />
+                    <Input placeholder="ex. 6046" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -322,16 +367,26 @@ export default function RegisterPage() {
             />
 
             <Button type="submit">Sign Up</Button>
+            <p className="text-xs">By clicking continue, you agree to our <span className="underline"><Link href={"/terms"}>Terms and Conditions</Link></span> </p>
+
+            <div className="flex gap-8 w-full items-center">
+              <Separator className="flex-1" />
+              <p className="text-xs">Or register using</p>
+              <Separator className="flex-1" />
+            </div>
+
+            {/* TODO: add a google button here */}
+            <Button type="button">Google (to be implemented)</Button>
           </form>
         </Form>
       </CardContent>
 
       <CardFooter>
-        <p>
+        <p className="text-xs">
           Already have an account?
           <Link
             href={"/login"}
-            className={cn(buttonVariants({ variant: "link" }), "px-2")}
+            className={cn(buttonVariants({ variant: "link" }), "px-2 text-xs")}
           >
             Login now
           </Link>

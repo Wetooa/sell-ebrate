@@ -6,6 +6,7 @@ export const registerFormSchema = z.object({
   lastName: z.string().min(2).max(20),
   email: z.string().email(),
   password: z.string(),
+  confirm: z.string(),
 
   gender: z.nativeEnum(Gender),
   birthdate: z.date(),
@@ -18,6 +19,9 @@ export const registerFormSchema = z.object({
     country: z.string(),
     zipcode: z.number().int(),
   }),
+}).refine((data) => data.password === data.confirm, {
+  message: "Passwords don't match",
+  path: ["confirm"], // path of error
 });
 
 export const loginFormSchema = z.object({

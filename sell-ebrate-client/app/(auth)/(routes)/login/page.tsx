@@ -116,13 +116,15 @@ export default function LoginPage() {
 
             <div className="flex gap-8 w-full items-center">
               <Separator className="flex-1" />
-              <p className="text-xs">Or sign in using</p>
+              <p className="text-xs">Or login using</p>
               <Separator className="flex-1" />
             </div>
 
             {/* TODO: add a google button here */}
             <Button type="button">Google (to be implemented)</Button>
+
           </form>
+
         </Form>
       </CardContent>
 
