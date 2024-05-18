@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -63,72 +64,79 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <Card className="w-full h-full">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your credentials</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="jakebajo@gmail.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Card className="w-full h-full bg-secondary">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Enter your credentials</CardDescription>
+        <Separator />
+      </CardHeader>
 
-              <Separator />
 
-              <Button type="submit">Login</Button>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormDescription className="text-xs">The unique identifier of your account</FormDescription>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="jakebajo@gmail.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormDescription className="text-xs">Remember to keep your password secure!</FormDescription>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Login</Button>
+            <p className="text-xs">By clicking continue, you agree to our <span className="underline"><Link href={"/terms"}>Terms and Conditions</Link></span> </p>
 
-              {/* TODO: add a google button here */}
-              <Button type="button">Google button here</Button>
-            </form>
-          </Form>
-        </CardContent>
+            <div className="flex gap-8 w-full items-center">
+              <Separator className="flex-1" />
+              <p className="text-xs">Or sign in using</p>
+              <Separator className="flex-1" />
+            </div>
 
-        <CardFooter>
-          <p>
-            Don&apos;t have an account yet?
-            <Link
-              href={"/register"}
-              className={cn(buttonVariants({ variant: "link" }), "px-2")}
-            >
-              Register now
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
-    </div>
+            {/* TODO: add a google button here */}
+            <Button type="button">Google (to be implemented)</Button>
+          </form>
+        </Form>
+      </CardContent>
+
+      <CardFooter>
+        <p className="text-xs">
+          Don&apos;t have an account yet?
+          <Link
+            href={"/register"}
+            className={cn(buttonVariants({ variant: "link" }), "px-2 text-xs")}
+          >
+            Register now
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 }

@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 function Provider({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ThemeProvider
+      < ThemeProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
@@ -13,7 +13,7 @@ function Provider({ children }: { children: React.ReactNode }) {
       >
         <Toaster />
         {children}
-      </ThemeProvider>
+      </ThemeProvider >
     </>
   );
 }

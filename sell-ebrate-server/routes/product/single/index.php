@@ -10,7 +10,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     try {
       $conn->begin_transaction();
 
-
       $sql1 = "
       SELECT a.*, b.firstName, b.lastName 
       FROM tblProduct AS a 
