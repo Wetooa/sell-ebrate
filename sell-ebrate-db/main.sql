@@ -106,6 +106,22 @@ CREATE TABLE tblReply (
   updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE tblTags (
+  tagId BIGINT AUTO_INCREMENT PRIMARY KEY,
+  tagName TEXT(20) NOT NULL
+);
+
+-- productId BIGINT,
+  -- FOREIGN KEY (productId) REFERENCES tblProduct (productId);
+)
+
+CREATE TABLE tblTagProduct (
+  tagId BIGINT,
+  productId BIGINT,
+  FOREIGN KEY (productId) REFERENCES tblProduct (productId),
+  FOREIGN KEY (tagId) REFERENCES tblTags (tagId)
+);
+
 
 ALTER TABLE tblUser
 ADD CONSTRAINT fkUserAccount
