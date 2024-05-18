@@ -51,7 +51,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       $hashedPassword = password_hash($password, PASSWORD_DEFAULT, $options);
 
       $sql1 = $conn->prepare("INSERT INTO tblAccount (firstName, lastName, email, password, gender, birthdate) VALUES (?, ?, ?, ?, ?, ?)");
-      $sql1->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $gender, date('Y-m-d H:i:s', strtotime($birthdate)));
+      $formattedBirthdate = date('Y-m-d H:i:s', strtotime($birthdate));
+      var_dump ($formattedBirthdate);
+      $sql1->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $gender, $formattedBirthdate);
       $sql1->execute();
       $accountId = $sql1->insert_id;
 
@@ -79,6 +81,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       $response = new ServerResponse(error: ["message" => $e->getMessage()]);
       returnJsonHttpResponse(409, $response);
     }
+    break;
 
   case "UPDATE":
 
