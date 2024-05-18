@@ -90,7 +90,7 @@ export default function Navbar() {
 
   return (
     <nav className="">
-      <div className="px-32 bg-primary z-50">
+      <div className="px-32 bg-primary-foreground z-50">
         <div className="flex items-center px-6 py-4 gap-2" >
 
           <Link href={"/"} className="mx-6">
@@ -101,7 +101,6 @@ export default function Navbar() {
 
           <div className="flex w-full">
             <Input className="rounded-tl-full rounded-bl-full" />
-
             <Button className="rounded-tr-full rounded-br-full px0 py-1" variant={"outline"}>
               <SearchIcon />
             </Button>
@@ -254,13 +253,10 @@ export default function Navbar() {
           </div>
 
 
-          <div>
-            <Link href={"/cart"} className={cn(buttonVariants({ variant: "outline" }), "")}>
+          <div className="flex">
+            <Link href={"/cart"} className={cn(buttonVariants({ variant: "outline" }), "rounded-tl-full rounded-bl-full")}>
               <ShoppingCart />
             </Link>
-          </div>
-
-          <div>
             <ModeToggle />
           </div>
 
@@ -269,10 +265,10 @@ export default function Navbar() {
 
       </div>
 
-      <div className="bg-gray-300 w-full">
+      <div className="bg-secondary-foreground w-full">
         <div className="mx-32 p-2">
           <Sheet>
-            <SheetTrigger>Open</SheetTrigger>
+            <SheetTrigger className="text-secondary">Open</SheetTrigger>
             <SheetContent side={"left"}>
               <SheetHeader>
                 <SheetTitle>Are you absolutely sure?</SheetTitle>
