@@ -3,8 +3,8 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $sql = "SELECT * FROM tblReply";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM tblReply WHERE reviewId = ?";
+    $result = $conn->execute_query($sql, [$_GET["reviewId"]]);
 
     if ($result->num_rows > 0) {
       $replies = $result->fetch_all(MYSQLI_ASSOC);

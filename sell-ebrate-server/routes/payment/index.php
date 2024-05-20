@@ -24,6 +24,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     }
 
     $totalAmount = 0;
+
     while ($row = $orderItemsResult->fetch_assoc()) {
       $productId = $row["productId"];
       $quantity = $row["quantity"];
@@ -56,4 +57,3 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     returnJsonHttpResponse(405, $response);
     break;
 }
-?>

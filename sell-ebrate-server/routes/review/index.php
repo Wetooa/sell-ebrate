@@ -13,11 +13,13 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                 tblReview r
             INNER JOIN 
                 tblAccount a ON r.userId = a.accountId
+            WHERE 
+              r.productId = ? 
             ORDER BY 
-                r.rating DESC
+                r.rating DESC 
         ";
 
-    $result = $conn->query($sqlGetReviews);
+    $result = $conn->execute_query($sqlGetReviews, [$_GET["productId"]]);
 
     if (!$result) {
       $response = new ServerResponse(error: ["message" => "Error executing query: " . $conn->error]);
