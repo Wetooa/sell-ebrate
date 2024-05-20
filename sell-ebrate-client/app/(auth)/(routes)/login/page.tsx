@@ -49,10 +49,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(serverDomain)
-    const { data } = await axios.post(serverDomain + "auth/login", {
-      ...values,
-    });
+    const { data } = await axios({ url: serverDomain + "auth/login", method: "POST", data: values });
 
     if (data.error) {
       toast({ title: "Login Error", description: data.error.message });

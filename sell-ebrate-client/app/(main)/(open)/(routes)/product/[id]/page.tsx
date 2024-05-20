@@ -18,25 +18,35 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { MinusIcon, PlusIcon } from "lucide-react";
+import ReviewCard from "@/components/review/review-card";
 
 function useGetProduct(productId: string) {
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
 
-      const { data } = await axios({
+      const { data: p } = await axios({
         method: "GET",
         url: serverDomain + `product/single`,
         params: { productId },
       });
 
-      setProduct(data.data.product);
+      const { data: r } = await axios({
+        method: "GET",
+        url: serverDomain + `review`,
+        params: { productId },
+      });
+
+      setProduct(p.data.product);
+      setReviews(r.data.reviews);
     };
     fetchProduct();
   }, []);
 
-  return product;
+  return [product, reviews];
 }
 
 export default function ProductPage() {
@@ -44,9 +54,11 @@ export default function ProductPage() {
   const { token } = useUserStore();
   const { toast } = useToast();
 
+  const [quantity, setQuantity] = useState(1);
+
   if (!id) { return <></> }
 
-  const product = useGetProduct(id as string) as any;
+  const [product, reviews] = useGetProduct(id as string) as any;
 
   // TODO: logic where it grabs data about that product as well as comments, rating, and stuff
 
@@ -72,14 +84,14 @@ export default function ProductPage() {
 
 
 
+
   return (
     <div className="">
 
       <div className="p-5 flex">
         <div className="w-1/3">
           <div className="w-full aspect-square bg-gray-200">
-          </div>
-        </div>
+          </div> </div>
 
         <div className="p-2 flex flex-col">
 
@@ -103,18 +115,44 @@ export default function ProductPage() {
 
             <Drawer>
               <DrawerTrigger asChild>
-                <Button onClick={addToCart}>Add to cart</Button>
+                <Button >Add to cart</Button>
               </DrawerTrigger>
               <DrawerContent>
                 <DrawerHeader>
-                  <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                  <DrawerDescription>This action cannot be undone.</DrawerDescription>
+
+                  <DrawerTitle>Buying {product.productName}</DrawerTitle>
+                  <DrawerDescription className="flex">
+                    <div className="w-1/4 aspect-square bg-gray-200  ">
+                    </div>
+
+                    <div>
+                      <p>{product.description}</p>
+                      <p>Php {product.price}</p>
+
+                      <div className="flex">
+                        <Button variant={"default"} onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                          <MinusIcon />
+                        </Button>
+                        <span className="text-md font-normal p-2">
+                          {quantity}
+                        </span>
+                        <Button variant={"default"} onClick={() => setQuantity(quantity + 1)}>
+                          <PlusIcon />
+                        </Button>
+                      </div>
+                    </div>
+
+                  </DrawerDescription>
+
                 </DrawerHeader>
                 <DrawerFooter>
-                  <Button>Submit</Button>
+
+                  <Button onClick={addToCart}>Add to Cart</Button>
+
                   <DrawerClose>
                     <Button variant="outline">Cancel</Button>
                   </DrawerClose>
+
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
@@ -126,6 +164,16 @@ export default function ProductPage() {
 
       <div className="p-5 mt-2">
         Seller: {product.firstName + " " + product.lastName}
+      </div>
+
+
+      <div>
+        {reviews.map((review: any) => {
+          return (
+            <ReviewCard key={review.reviewId} review={review} />
+          )
+        })}
+
       </div>
 
     </div>
