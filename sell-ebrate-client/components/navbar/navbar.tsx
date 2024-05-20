@@ -57,11 +57,11 @@ function useGetProfile(token: string | null) {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data } = await axios.get(serverDomain + "profile/self", {
-        headers: {
-          Authorization: token,
-        },
-      } as any);
+      const { data } = await axios({
+        method: "GET", url: serverDomain + "profile/self", headers: {
+          Authorization: token
+        }
+      });
 
       // TODO: toast here
 

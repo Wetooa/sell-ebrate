@@ -85,8 +85,12 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-auto">
+
             <Button onClick={buyProduct}>Buy</Button>
+
+
             <Button onClick={addToCart}>Add to cart</Button>
+
           </div>
         </div>
 

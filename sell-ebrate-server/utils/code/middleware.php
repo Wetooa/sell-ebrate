@@ -6,8 +6,6 @@
 include_once __DIR__ . "../../meta/env.php";
 
 
-
-
 // automatically makes route protected
 // TODO: improve this later on
 function getAuthPayload()
@@ -20,9 +18,10 @@ function getAuthPayload()
     exit;
   }
 
+
   $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
-  if (!preg_match('/^Bearer\s([a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+)$/', $authorizationHeader, $matches)) {
+  if (!preg_match('/^Bearer\s([a-zA-Z0-9\-_=]+?\.[a-zA-Z0-9\-_=]+?\.[a-zA-Z0-9\-_=]+)$/', $authorizationHeader, $matches)) {
     $response = new ServerResponse(error: ["message" => "Invalid Authorization header"]);
     returnJsonHttpResponse(400, $response);
     exit;
@@ -31,17 +30,15 @@ function getAuthPayload()
   $token = $matches[1];
   list($header, $payload, $signature) = explode('.', $token);
 
-  $headerDecoded = base64UrlDecode($header);
-  $payloadDecoded = base64UrlDecode($payload);
-  
-  $expectedSignature = hash_hmac('sha256', "$header.$payload", $secretKey, true);
-  $expectedSignatureEncoded = base64UrlEncode($expectedSignature);
+  $headerDecoded = uncleanData($header);
+  $payloadDecoded = uncleanData($payload);
+  $expectedSignature = hash_hmac('sha256', "$header.$payload", $secretKey);
 
-  if ($signature !== $expectedSignatureEncoded) {
+  if ($signature !== $expectedSignature) {
     $response = new ServerResponse(error: ["message" => "Invalid signature"]);
     returnJsonHttpResponse(400, $response);
     exit;
   }
 
-  return json_decode($payloadDecoded, true);
+  return $payloadDecoded;
 }

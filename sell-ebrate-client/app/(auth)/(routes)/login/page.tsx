@@ -112,6 +112,7 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
+
             <Button type="submit">Login</Button>
             <p className="text-xs">By clicking continue, you agree to our <span className="underline"><Link href={"/terms"}>Terms and Conditions</Link></span> </p>
 
