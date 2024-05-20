@@ -20,7 +20,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       $product = $result->fetch_assoc();
 
       if (!$product) {
-        $response = new ServerResponse(error: ["message" => "Product with id " . $fields["productId"] . " not found"]);
+        $response = new ServerResponse(error: ["message" => "Product with id " . $_GET["productId"] . " not found"]);
         returnJsonHttpResponse(404, $response);
       }
 
@@ -32,7 +32,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 
       $conn->commit();
 
-      $response = new ServerResponse(data: ["message" => "Successfully acquired product with id " . $fields["productId"], "product" => $product]);
+      $response = new ServerResponse(data: ["message" => "Successfully acquired product with id " . $_GET["productId"], "product" => $product]);
       returnJsonHttpResponse(200, $response);
     } catch (Exception $e) {
       $conn->rollback();
