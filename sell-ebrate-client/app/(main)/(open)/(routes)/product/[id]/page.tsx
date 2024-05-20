@@ -78,8 +78,7 @@ export default function ProductPage() {
       <div className="p-5 flex">
         <div className="w-1/3">
           <div className="w-full aspect-square bg-gray-200">
-          </div>
-        </div>
+          </div> </div>
 
         <div className="p-2 flex flex-col">
 
@@ -103,18 +102,30 @@ export default function ProductPage() {
 
             <Drawer>
               <DrawerTrigger asChild>
-                <Button onClick={addToCart}>Add to cart</Button>
+                <Button >Add to cart</Button>
               </DrawerTrigger>
               <DrawerContent>
                 <DrawerHeader>
-                  <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                  <DrawerDescription>This action cannot be undone.</DrawerDescription>
+
+                  <DrawerTitle>Buying {product.productName}</DrawerTitle>
+                  <DrawerDescription>
+
+                    <div className="w-1/4 aspect-square bg-gray-200  ">
+                    </div>
+
+                    <p>{product.description}</p>
+
+                  </DrawerDescription>
+
                 </DrawerHeader>
                 <DrawerFooter>
-                  <Button>Submit</Button>
+
+                  <Button onClick={addToCart}>Add to Cart</Button>
+
                   <DrawerClose>
                     <Button variant="outline">Cancel</Button>
                   </DrawerClose>
+
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
