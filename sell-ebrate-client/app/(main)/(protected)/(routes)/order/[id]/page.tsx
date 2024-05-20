@@ -1,9 +1,10 @@
 
 
 
+
 import React from 'react'
 
-export default function OrderPage() {
+export default function SingleOrderPage() {
   return (
     <div>OrderPage</div>
   )

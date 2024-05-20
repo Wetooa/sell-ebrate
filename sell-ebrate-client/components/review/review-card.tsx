@@ -47,11 +47,16 @@ export default function ReviewCard({ review }: { review: any }) {
       <p>{review.message}</p>
 
 
-      <div>
+      <div className='ml-10'>
         {replies.map((reply: any) => {
           return (
             <div>
-              {reply.message}
+              <h5>
+                {reply.firstName} {reply.lastName}
+              </h5>
+              <p>
+                {reply.message}
+              </p>
             </div>
           );
         })}
