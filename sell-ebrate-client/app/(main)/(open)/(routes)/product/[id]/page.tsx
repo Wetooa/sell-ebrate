@@ -5,8 +5,19 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUserStore } from "@/store/user";
 import { serverDomain } from "@/util/server";
 import axios from "axios";
-import { useRouter, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 
 function useGetProduct(productId: string) {
   const [product, setProduct] = useState(null);
@@ -85,8 +96,29 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-auto">
+
             <Button onClick={buyProduct}>Buy</Button>
-            <Button onClick={addToCart}>Add to cart</Button>
+
+
+
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button onClick={addToCart}>Add to cart</Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                  <DrawerDescription>This action cannot be undone.</DrawerDescription>
+                </DrawerHeader>
+                <DrawerFooter>
+                  <Button>Submit</Button>
+                  <DrawerClose>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+
           </div>
         </div>
 
