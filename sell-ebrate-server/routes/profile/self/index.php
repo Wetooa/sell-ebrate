@@ -1,7 +1,4 @@
 
-
-
-
 <?php
 include_once "../../../utils/headers.php";
 
@@ -9,9 +6,15 @@ include_once "../../../utils/headers.php";
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
     $token = getAuthPayload();
+    $userId = $token["accountId"];
+    $conn->begin_transaction();
 
-    $sql1 = "SELECT * FROM tblAccount WHERE accountId = ?";
-    $result = $conn->execute_query($sql1, [$token['accountId']]);
+
+    $sql1 = $conn->prepare("SELECT * FROM tblAccount WHERE accountId = ?");
+    $sql1->bind_param("i", $userId);
+    $sql1->execute();
+
+    $result = $sql1->get_result();
 
     if ($result->num_rows == 0) {
       $response = new ServerResponse(error: ["message" => "User does not exist"]);

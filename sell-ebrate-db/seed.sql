@@ -327,4 +327,3 @@ INSERT INTO tblTagProduct (productId, tagId) VALUES
 (12, 7), -- Fair Trade Chocolate (Condiments)
 (15, 7), -- Artisan Cheese (Condiments)
 (17, 7); -- Organic Tea (Condiments)
-
