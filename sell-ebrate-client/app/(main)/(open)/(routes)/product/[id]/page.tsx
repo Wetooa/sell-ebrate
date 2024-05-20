@@ -108,12 +108,16 @@ export default function ProductPage() {
                 <DrawerHeader>
 
                   <DrawerTitle>Buying {product.productName}</DrawerTitle>
-                  <DrawerDescription>
-
+                  <DrawerDescription className="flex">
                     <div className="w-1/4 aspect-square bg-gray-200  ">
                     </div>
 
-                    <p>{product.description}</p>
+                    <div>
+                      <p>{product.description}</p>
+                      <p>Php {product.price}</p>
+
+                      <p>Quanitty shiuchi</p>
+                    </div>
 
                   </DrawerDescription>
 
