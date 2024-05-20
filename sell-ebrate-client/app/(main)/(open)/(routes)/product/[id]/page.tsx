@@ -18,25 +18,35 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { MinusIcon, PlusIcon } from "lucide-react";
+import ReviewCard from "@/components/review/review-card";
 
 function useGetProduct(productId: string) {
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
 
-      const { data } = await axios({
+      const { data: p } = await axios({
         method: "GET",
         url: serverDomain + `product/single`,
         params: { productId },
       });
 
-      setProduct(data.data.product);
+      const { data: r } = await axios({
+        method: "GET",
+        url: serverDomain + `review`,
+        params: { productId },
+      });
+
+      setProduct(p.data.product);
+      setReviews(r.data.reviews);
     };
     fetchProduct();
   }, []);
 
-  return product;
+  return [product, reviews];
 }
 
 export default function ProductPage() {
@@ -44,9 +54,11 @@ export default function ProductPage() {
   const { token } = useUserStore();
   const { toast } = useToast();
 
+  const [quantity, setQuantity] = useState(1);
+
   if (!id) { return <></> }
 
-  const product = useGetProduct(id as string) as any;
+  const [product, reviews] = useGetProduct(id as string) as any;
 
   // TODO: logic where it grabs data about that product as well as comments, rating, and stuff
 
@@ -69,6 +81,7 @@ export default function ProductPage() {
     const { data } = await axios({ method: "POST", url: serverDomain + "/product/buy", data: { "productId": id }, headers: { "Authorization": token } })
 
   }
+
 
 
 
@@ -116,7 +129,17 @@ export default function ProductPage() {
                       <p>{product.description}</p>
                       <p>Php {product.price}</p>
 
-                      <p>Quanitty shiuchi</p>
+                      <div className="flex">
+                        <Button variant={"default"} onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                          <MinusIcon />
+                        </Button>
+                        <span className="text-md font-normal p-2">
+                          {quantity}
+                        </span>
+                        <Button variant={"default"} onClick={() => setQuantity(quantity + 1)}>
+                          <PlusIcon />
+                        </Button>
+                      </div>
                     </div>
 
                   </DrawerDescription>
@@ -141,6 +164,16 @@ export default function ProductPage() {
 
       <div className="p-5 mt-2">
         Seller: {product.firstName + " " + product.lastName}
+      </div>
+
+
+      <div>
+        {reviews.map((review: any) => {
+          return (
+            <ReviewCard key={review.reviewId} review={review} />
+          )
+        })}
+
       </div>
 
     </div>
