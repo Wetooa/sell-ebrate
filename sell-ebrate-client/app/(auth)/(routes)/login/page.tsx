@@ -48,8 +48,11 @@ export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
 
+  
+  
+
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    const { data } = await axios({ url: serverDomain + "auth/login", method: "POST", data: values });
+    const { data } = await axios.post('/api/auth/login', values);
 
     if (data.error) {
       toast({ title: "Login Error", description: data.error.message });

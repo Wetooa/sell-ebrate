@@ -6,21 +6,32 @@ import axios from "axios";
 import { serverDomain } from "@/util/server";
 import { useSearchParams } from "next/navigation";
 
-function useGetProfile(accountId: string) {
+function useGetProfile(token: string | null) {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data } = await axios({
-        method: "GET", url: serverDomain + "profile", data: { accountId }
-      });
+      try {
+        const response = await axios.get('/api/profile/self', {
+          headers: {
+            Authorization: token,
+          },
+        });
 
-      // TODO: toast here
+        // Display toast message
+  
 
-      setProfile(data.data.profile);
+        // Extract data from the response object
+        setProfile(response.data.data.user);
+      } catch (error) {
+      
+      }
     };
-    fetchProfile();
-  }, [accountId]);
+
+    if (token) {
+      fetchProfile();
+    }
+  }, [token]);
 
   return profile;
 }

@@ -51,6 +51,13 @@ import { serverDomain } from "@/util/server";
 import { useRouter } from "next/navigation";
 
 
+interface UserProfile {
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  // Add other fields as necessary
+}
 
 function useGetProfile(token: string | null) {
   const [profile, setProfile] = useState(null);
@@ -58,7 +65,7 @@ function useGetProfile(token: string | null) {
   useEffect(() => {
     const fetchProfile = async () => {
       const { data } = await axios({
-        method: "GET", url: serverDomain + "profile/self", headers: {
+        method: "GET", url: "api/profile/self", headers: {
           Authorization: token
         }
       });
@@ -72,6 +79,7 @@ function useGetProfile(token: string | null) {
 
   return profile;
 }
+
 
 
 export default function Navbar() {

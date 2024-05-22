@@ -77,19 +77,20 @@ export default function RegisterPage() {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
-    const { data } = await axios.post(serverDomain + "auth/register", {
-      ...values,
-    });
-
-    if (data.error) {
-      // TODO: error toast here
-      toast({ title: "Register Error", description: data.error.message });
-    } else {
-      // TODO: good toast here
-      toast({ title: "Register Success", description: data.data.message });
-      localStorage.setItem("token", data.data.token);
-      setToken(data.data.token);
-      router.push("/");
+    try {
+      const { data } = await axios.post('/api/auth/register', values);
+  
+      if (data.error) {
+        toast({ title: "Register Error", description: data.error.message });
+      } else {
+        toast({ title: "Register Success", description: data.data.message });
+        localStorage.setItem("token", data.data.token);
+        setToken(data.data.token);
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Registration request failed:", error);
+      toast({ title: "Register Error", description: "An unexpected error occurred." });
     }
   }
 

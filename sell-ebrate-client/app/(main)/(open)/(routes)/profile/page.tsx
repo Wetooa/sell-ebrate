@@ -12,7 +12,7 @@ function useGetProfile(token: string | null) {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data } = await axios.get(serverDomain + "profile/self", {
+      const { data } = await axios.get('/api/profile/self', {
         headers: {
           Authorization: token,
         },
