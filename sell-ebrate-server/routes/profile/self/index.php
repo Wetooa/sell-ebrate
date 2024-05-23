@@ -1,11 +1,7 @@
 
 <?php
 
-
-// Your PHP script logic here
-
 include_once "../../../utils/headers.php";
-
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
@@ -36,4 +32,36 @@ switch ($_SERVER["REQUEST_METHOD"]) {
   case "UPDATE":
 
   case "DELETE":
+    $token = getAuthPayload();
+    if (!$token) {
+        error_log("Failed to get auth payload");
+        $response = new ServerResponse(error: ["message" => "Unauthorized"]);
+        returnJsonHttpResponse(401, $response);
+        exit();
+    }
+    
+    $userId = $token["accountId"];
+    error_log("User ID extracted: " . $userId);
+    
+    $sqlDeleteAccount = $conn->prepare("UPDATE tblAccount SET isDeleted = True WHERE accountId = ?");
+    if (!$sqlDeleteAccount) {
+        error_log("Prepare failed: " . $conn->error);
+        $response = new ServerResponse(error: ["message" => "Internal server error"]);
+        returnJsonHttpResponse(500, $response);
+        exit();
+    }
+    
+    $sqlDeleteAccount->bind_param("i", $userId);
+    $sqlDeleteAccount->execute();
+    
+    if ($sqlDeleteAccount->affected_rows > 0) {
+        error_log("Account deleted successfully for user ID: " . $userId);
+        $response = new ServerResponse(data: ["message" => "Account deleted successfully"]);
+        returnJsonHttpResponse(200, $response);
+    } else {
+        error_log("Failed to delete account for user ID: " . $userId);
+        $response = new ServerResponse(error: ["message" => "Failed to delete account"]);
+        returnJsonHttpResponse(500, $response);
+    }
+    
 }
