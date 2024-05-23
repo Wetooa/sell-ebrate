@@ -12,7 +12,7 @@ function useGetProfile(token: string | null) {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data } = await axios.get('/api/profile/self', {
+      const { data } = await axios.get('/api/profile', {
         headers: {
           Authorization: token,
         },
@@ -30,9 +30,6 @@ function useGetProfile(token: string | null) {
 
 export default function Profile() {
   const { token } = useUserStore();
-
-  // TODO: get other users profile
-  // const { id } = router.query;
 
   const profile = useGetProfile(token);
 

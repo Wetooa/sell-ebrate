@@ -12,14 +12,13 @@ function useGetProfile(token: string | null) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('/api/profile/self', {
+        const response = await axios.get('/api/profile', {
           headers: {
             Authorization: token,
           },
         });
 
         // Display toast message
-  
 
         // Extract data from the response object
         setProfile(response.data.data.user);

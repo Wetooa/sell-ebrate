@@ -17,11 +17,25 @@ function useGetStats() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const { data: a } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: "getProductCount" } });
-      const { data: b } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: "getSellerCount" } });
-      const { data: c } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: "getBuyerCount" } });
-      const { data: d } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: "getPaymentCount" } });
-      const { data: e } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: "getReviewCount" } });
+      const { data: a } = await axios.get('/api/report/stats', {
+        params: { action: "getProductCount" },
+      });
+  
+      const { data: b } = await axios.get('/api/report/stats', {
+        params: { action: "getSellerCount" },
+      });
+  
+      const { data: c } = await axios.get('/api/report/stats', {
+        params: { action: "getBuyerCount" },
+      });
+  
+      const { data: d } = await axios.get('/api/report/stats', {
+        params: { action: "getPaymentCount" },
+      });
+  
+      const { data: e } = await axios.get('/api/report/stats', {
+        params: { action: "getReviewCount" },
+      });
 
       setStats([a.data.count, b.data.count, c.data.count, d.data.count, e.data.count]);
 
