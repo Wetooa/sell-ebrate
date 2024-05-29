@@ -27,27 +27,29 @@ function useGetProduct(productId: string) {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      try {
+        const { data: p } = await axios.get('/api/product/single', {
+          params: { productId },
+        });
 
-      const { data: p } = await axios({
-        method: "GET",
-        url: serverDomain + `product/single`,
-        params: { productId },
-      });
+        const { data: r } = await axios.get('/api/review', {
+          params: { productId },
+        });
 
-      const { data: r } = await axios({
-        method: "GET",
-        url: serverDomain + `review`,
-        params: { productId },
-      });
-
-      setProduct(p.data.product);
-      setReviews(r.data.reviews);
+        setProduct(p.data.product);
+        setReviews(r.data.reviews);
+      } catch (error) {
+        console.error("Failed to fetch product or reviews:", error);
+        // TODO: Implement error handling, e.g., toast error message
+      }
     };
+
     fetchProduct();
-  }, []);
+  }, [productId]);
 
   return [product, reviews];
 }
+
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -65,23 +67,38 @@ export default function ProductPage() {
   if (!product) { return <></> }
 
   async function addToCart() {
-
-    const { data } = await axios({ method: "POST", url: serverDomain + "/cart", data: { "productId": id }, headers: { "Authorization": token } })
-
-    if (data.error) {
-      toast({ title: "Add to Cart Error", description: data.error.message });
-    } else {
-      toast({ title: "Add to Cart Success", description: data.data.message });
+    try {
+      const { data } = await axios.post("/api/cart", { productId: id }, {
+        headers: {
+          Authorization: token
+        }
+      });
+  
+      if (data.error) {
+        toast({ title: "Add to Cart Error", description: data.error.message });
+      } else {
+        toast({ title: "Add to Cart Success", description: data.data.message });
+      }
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+      // TODO: Implement error handling, e.g., toast error message
     }
-
   }
-
+  
   async function buyProduct() {
-
-    const { data } = await axios({ method: "POST", url: serverDomain + "/product/buy", data: { "productId": id }, headers: { "Authorization": token } })
-
+    try {
+      const { data } = await axios.post("/api/product/buy", { productId: id }, {
+        headers: {
+          Authorization: token
+        }
+      });
+  
+      // Handle response if needed
+    } catch (error) {
+      console.error("Failed to buy product:", error);
+      // TODO: Implement error handling, e.g., toast error message
+    }
   }
-
 
 
 
@@ -179,4 +196,3 @@ export default function ProductPage() {
     </div>
   )
 }
-

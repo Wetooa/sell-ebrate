@@ -7,25 +7,25 @@ import { Play } from 'next/font/google';
 import axios from 'axios';
 
 
-
 function useGetReviewReplies(reviewId: string) {
-
   const [replies, setReplies] = useState([]);
 
   useEffect(() => {
     const fetchReplies = async () => {
+      try {
+        const { data: p } = await axios.get('/api/reply', {
+          params: { reviewId },
+        });
 
-      const { data: p } = await axios({
-        method: "GET",
-        url: serverDomain + `reply`,
-        params: { reviewId },
-      });
-
-
-      setReplies(p.data.replies);
+        setReplies(p.data.replies);
+      } catch (error) {
+        console.error("Failed to fetch replies:", error);
+        // TODO: Implement error handling, e.g., toast error message
+      }
     };
+
     fetchReplies();
-  }, []);
+  }, [reviewId]);
 
   return replies;
 }

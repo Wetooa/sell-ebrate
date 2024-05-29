@@ -14,27 +14,29 @@ function useGetCart(token: string) {
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchCart = async () => {
+      try {
+        const { data } = await axios.get("/api/cart", {
+          headers: {
+            Authorization: token,
+          },
+        });
 
-      const { data } = await axios({
-        method: "GET",
-        url: serverDomain + `cart`,
-        headers: {
-          "Authorization": token
+        setCart(data.data.cart);
+
+        if (data.error) {
+          toast({ title: "Cart Fetch Error", description: data.error.message });
+        } else {
+          toast({ title: "Cart Fetch Success", description: data.data.message });
         }
-      });
-
-      setCart(data.data.cart);
-
-      if (data.error) {
-        toast({ title: "Cart Fetch Error", description: data.error.message });
-      } else {
-        toast({ title: "Cart Fetch Success", description: data.data.message });
+      } catch (error) {
+        console.error("Failed to fetch cart:", error);
+        // TODO: Implement error handling, e.g., toast error message
       }
-
     };
-    fetchProduct();
-  }, [token]);
+
+    fetchCart();
+  }, [token, toast]);
 
   return cart;
 }

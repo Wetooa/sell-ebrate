@@ -3,20 +3,20 @@ include_once "../../utils/headers.php";
 
 switch ($_SERVER["REQUEST_METHOD"]) {
   case "GET":
-    $accountId = $_GET["accountId"];
-
-    $sql1 = "SELECT * FROM tblAccount WHERE accountId = ?";
-    $result = $conn->execute_query($sql1, [$accountId]);
-
-    if ($result->num_rows == 0) {
-      $response = new ServerResponse(error: ["message" => "User does not exist"]);
-      returnJsonHttpResponse(400, $response);
+    // Get the authentication token from the headers
+    $token = getAuthPayload();
+    
+    // Check if the token is valid and contains the accountId
+    if (!isset($token["accountId"])) {
+      $response = new ServerResponse(error: ["message" => "Authentication token is missing or invalid"]);
+      returnJsonHttpResponse(401, $response); // Unauthorized
     }
 
-    $user = $result->fetch_assoc();
-    unset($user["password"]);
+    // Get the accountId from the token
+    $accountId = $token["accountId"];
 
-    $response = new ServerResponse(data: ["message" => "User data fetched successfully", "user" => $user]);
+    // Prepare the response
+    $response = new ServerResponse(data: ["message" => "User found successfully", "accountId" => $accountId]);
     returnJsonHttpResponse(200, $response);
 
   case "UPDATE":

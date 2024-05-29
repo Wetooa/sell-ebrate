@@ -37,52 +37,66 @@ switch ($_SERVER["REQUEST_METHOD"]) {
       returnJsonHttpResponse(200, $response);
       break;
   
-    case "POST":
 
+      case "POST":
         $token = getAuthPayload();
-       $buyerId = $token["accountId"];
-  
-      $sqlCartItems = $conn->prepare("SELECT productId, quantity FROM tblCart WHERE buyerId = ?");
-      $sqlCartItems->bind_param("i", $buyerId);
-      $sqlCartItems->execute();
-      $cartItemsResult = $sqlCartItems->get_result();
-  
-      if ($cartItemsResult->num_rows === 0) {
-        $response = new ServerResponse(error: ["message" => "Cart is empty"]);
-        returnJsonHttpResponse(400, $response);
-        exit;
-      }
-  
-      $conn->begin_transaction();
-      try {
-        $sqlOrder = $conn->prepare("INSERT INTO tblOrder (buyerId) VALUES (?)");
-        $sqlOrder->bind_param("i", $userId);
-        $sqlOrder->execute();
-  
-        $orderId = $conn->insert_id;
-  
-        while ($row = $cartItemsResult->fetch_assoc()) {
-          $productId = $row["productId"];
-          $quantity = $row["quantity"];
-  
-          $sqlOrderItem = $conn->prepare("INSERT INTO tblOrderItem (orderId, productId, quantity) VALUES (?, ?, ?)");
-          $sqlOrderItem->bind_param("iii", $orderId, $productId, $quantity);
-          $sqlOrderItem->execute();
-  
-          $sqlReduceQuantity = $conn->prepare("UPDATE tblProduct SET quantity = quantity - ? WHERE productId = ?");
-          $sqlReduceQuantity->bind_param("ii", $quantity, $productId);
-          $sqlReduceQuantity->execute();
+        $userId = $token["accountId"];
+    
+        // Get the product ID from the request body
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (!isset($input['productId'])) {
+          $response = new ServerResponse(error: ["message" => "Product ID is required"]);
+          returnJsonHttpResponse(400, $response);
+          exit;
         }
-  
-        $conn->commit();
-        $response = new ServerResponse(data: ["message" => "Products bought successfully", "orderId" => $orderId]);
-        returnJsonHttpResponse(200, $response);
-      } catch (Exception $e) {
-        $conn->rollback();
-        $response = new ServerResponse(error: ["message" => "Transaction failed", "details" => $e->getMessage()]);
-        returnJsonHttpResponse(500, $response);
-      }
-      break;
+    
+        $productId = $input['productId'];
+    
+        // Check if the product exists in the cart for the user
+        $sqlCartItems = $conn->prepare("SELECT productId, quantity FROM tblCart WHERE userId = ? AND productId = ?");
+        $sqlCartItems->bind_param("ii", $userId, $productId);
+        $sqlCartItems->execute();
+        $cartItemsResult = $sqlCartItems->get_result();
+    
+        if ($cartItemsResult->num_rows === 0) {
+          $response = new ServerResponse(error: ["message" => "Product not found in cart"]);
+          returnJsonHttpResponse(400, $response);
+          exit;
+        }
+    
+        $conn->begin_transaction();
+        try {
+          // Create the order
+          $sqlOrder = $conn->prepare("INSERT INTO tblOrder (buyerId) VALUES (?)");
+          $sqlOrder->bind_param("i", $userId);
+          $sqlOrder->execute();
+    
+          $orderId = $conn->insert_id;
+    
+          while ($row = $cartItemsResult->fetch_assoc()) {
+            $quantity = $row["quantity"];
+    
+            // Insert order item
+            $sqlOrderItem = $conn->prepare("INSERT INTO tblOrderItem (orderId, productId, quantity) VALUES (?, ?, ?)");
+            $sqlOrderItem->bind_param("iii", $orderId, $productId, $quantity);
+            $sqlOrderItem->execute();
+    
+            // Update product quantity
+            $sqlReduceQuantity = $conn->prepare("UPDATE tblProduct SET quantity = quantity - ? WHERE productId = ?");
+            $sqlReduceQuantity->bind_param("ii", $quantity, $productId);
+            $sqlReduceQuantity->execute();
+          }
+    
+          $conn->commit();
+    
+          $response = new ServerResponse(data: ["message" => "Product bought successfully", "orderId" => $orderId]);
+          returnJsonHttpResponse(200, $response);
+        } catch (Exception $e) {
+          $conn->rollback();
+          $response = new ServerResponse(error: ["message" => "Transaction failed", "details" => $e->getMessage()]);
+          returnJsonHttpResponse(500, $response);
+        }
+        break;
   
     default:
       $response = new ServerResponse(error: ["message" => "Invalid request method"]);

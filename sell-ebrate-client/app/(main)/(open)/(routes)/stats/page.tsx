@@ -25,22 +25,25 @@ import dynamic from "next/dynamic";
 
 
 function useGetStats(action: string) {
-
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState<number | null>(null);
 
   useEffect(() => {
-
     const fetchStats = async () => {
-      const { data } = await axios({ method: "GET", url: serverDomain + "report/stats", params: { action: action } });
-      setStats(data.data.count);
-    }
+      try {
+        const { data } = await axios.get('/api/report/stats', {
+          params: { action },
+        });
+        setStats(data.data.count);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
     fetchStats();
-
-  }, [action])
-
+  }, [action]);
 
   return stats;
 }
+
 
 const BarChart = dynamic(() => import('@/components/charts/BarChart'), { ssr: false });
 
