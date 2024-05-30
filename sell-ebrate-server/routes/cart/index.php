@@ -6,13 +6,10 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     $token = getAuthPayload();
     $accountId = $token["accountId"];
 
-    $sql = "SELECT b.productId, b.productName, b.productDescription, b.productPrice, COUNT(a.productId) as quantity
-            FROM tblCart AS a
-            JOIN tblProduct AS b ON a.productId = b.productId
-            WHERE a.userId = ?
-            GROUP BY b.productId, b.productName, b.productDescription, b.productPrice";
+    $sql = "SELECT * FROM tblCart AS a JOIN tblProduct AS b ON a.productId = b.productId WHERE userId = ? ";
     $result = $conn->execute_query($sql, [$accountId]);
     $cart = $result->fetch_all(MYSQLI_ASSOC);
+
 
     $response = new ServerResponse(data: ["message" => "User cart fetched successfully", "cart" => $cart]);
     returnJsonHttpResponse(200, $response);

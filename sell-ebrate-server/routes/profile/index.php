@@ -1,82 +1,95 @@
-<?php
-include_once "../../utils/headers.php";
+"use client";
 
-switch ($_SERVER["REQUEST_METHOD"]) {
-  case "GET":
-    // Get the authentication token from the headers
-    $token = getAuthPayload();
-    
-    // Check if the token is valid and contains the accountId
-    if (!isset($token["accountId"])) {
-      $response = new ServerResponse(error: ["message" => "Authentication token is missing or invalid"]);
-      returnJsonHttpResponse(401, $response); // Unauthorized
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { serverDomain } from "@/util/server";
+import { useRouter } from "next/router";
+import { Button } from "@/components/ui/button";
+
+import { useUserStore } from "@/store/user";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+function useGetProfile(token: string | null) {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const { data } = await axios.get('/api/profile/self', {
+        headers: {
+          Authorization: token,
+        },
+      } as any);
+
+      setProfile(data.data.user);
+    };
+    fetchProfile();
+  }, [token]);
+
+  return profile;
+}
+
+
+export default function Profile() {
+  const { token } = useUserStore();
+
+  const profile = useGetProfile(token);
+
+  const handleDeleteAccount = async () => {
+    try {
+      await axios.delete('/api/profile/self', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Redirect to the home page or login page after successful deletion
+      router.push("/");
+    } catch (error) {
+      console.error("Failed to delete account:", error);
     }
+  };
 
-    // Get the accountId from the token
-    $accountId = $token["accountId"];
+  if (!profile) return null;
+  return (
+    <div className="p-12 bg-white shadow-md rounded-lg max-w-md mx-auto mt-16">
+      <div className="flex justify-center mb-12">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt={`${profile.firstName} ${profile.lastName}`} />
+          <AvatarFallback>{profile.firstName[0]}{profile.lastName[0]}</AvatarFallback>
+        </Avatar>
+      </div>
 
-    // Prepare the response
-    $response = new ServerResponse(data: ["message" => "User found successfully", "accountId" => $accountId]);
-    returnJsonHttpResponse(200, $response);
+      <div className="text-center mb-8">
+      </div>
 
-  case "UPDATE":
-    $jsonData = getBodyParameters();
-    $token = getAuthPayload();
-    $userId = $token['accountId'];
-    $sql1 = "SELECT * FROM tblUser WHERE userId = ?";
-    $result = $conn->execute_query($sql1, [$userId]);
+      <div className="grid grid-cols-2 gap-6">
+        <div className="text-gray-700 font-medium">Firstname:</div>
+        <p className="text-gray-600">{profile.firstName}</p>
 
-    $user = $result->fetch_assoc();
+        <div className="text-gray-700 font-medium">Lastname:</div>
+        <p className="text-gray-600">{profile.lastName}</p>
 
-    if (empty($jsonData)) {
-      $response = new ServerResponse(error: ["message" => "No fields provided for update"]);
-      returnJsonHttpResponse(400, $response);
-    }
+        <div className="text-gray-700 font-medium">Email:</div>
+        <p className="text-gray-600">{profile.email}</p>
 
-    $fieldsToUpdate = [];
-    $updateValues = [];
-    foreach ($jsonData as $key => $value) {
-      if (array_key_exists($key, $user) && $key != "userId") {
-        $fieldsToUpdate[] = "$key = ?";
-        $updateValues[] = $value;
-      }
-    }
+      
+        <div className="text-gray-700 font-medium">Email:</div>
+        <p className="text-gray-600">{profile.email}</p>
 
-    if (empty($fieldsToUpdate)) {
-      $response = new ServerResponse(error: ["message" => "No valid fields provided for update"]);
-      returnJsonHttpResponse(400, $response);
-    }
+        <div className="text-gray-700 font-medium">Gender:</div>
+        <div className="text-gray-900">{profile.gender}</div>
+        
+        <div className="text-gray-700 font-medium">Birthdate:</div>
+        <div className="text-gray-900">{new Date(profile.birthdate).toLocaleDateString()}</div>
 
-    $fieldsToUpdateString = implode(", ", $fieldsToUpdate);
-    $updateValues[] = $userId;
-    $sql2 = "UPDATE tblUser SET $fieldsToUpdateString WHERE userId = ?";
-    $conn->execute_query($sql2, $updateValues);
+        <div className="text-gray-700 font-medium">Created At:</div>
+        <div className="text-gray-900">{new Date(profile.createdAt).toLocaleString()}</div>
 
-    $sql3 = "SELECT * FROM tblUser WHERE userId = ?";
-    $result = $conn->execute_query($sql3, [$userId]);
-    $updatedUser = $result->fetch_assoc();
+        <div className="text-gray-700 font-medium">Updated At:</div>
+        <div className="text-gray-900">{new Date(profile.updatedAt).toLocaleString()}</div>
+      </div>
 
-    $response = new ServerResponse(data: ["message" => "User data updated successfully", "user" => $updatedUser]);
-    returnJsonHttpResponse(200, $response);
-
-  case "DELETE":
-    $token = getAuthPayload();
-    $userId = $token["accountId"];
-
-    $sqlDeleteAccount = $conn->prepare("UPDATE tblAccount SET isDeleted = True WHERE accountId = ?");
-    $sqlDeleteAccount->bind_param("i", $userId);
-    $sqlDeleteAccount->execute();
-
-
-    if ($sqlDeleteAccount->affected_rows > 0) {
-      $response = new ServerResponse(data: ["message" => "Account deleted successfully"]);
-      returnJsonHttpResponse(200, $response);
-    } else {
-      $response = new ServerResponse(error: ["message" => "Failed to delete account"]);
-      returnJsonHttpResponse(500, $response);
-    }
-
-  default:
-    $response = new ServerResponse(error: ["message" => "Invalid request method"]);
-    returnJsonHttpResponse(405, $response);
+      <div className="mt-6 flex justify-between">
+        {/* <Button onClick={handleEditProfile} className="bg-blue-500 text-white">Edit Profile</Button> */}
+       <Button onClick={handleDeleteAccount} className="bg-red-500 text-white">Delete Account</Button>
+      </div>
+    </div>
+  );
 }
